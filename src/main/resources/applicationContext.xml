@@ -13,6 +13,7 @@
 
     <bean id="userService" class="dushkof.seaWars.services.impl.UserServiceImpl">
         <property name="gameService" ref="gameService"/>
+        <property name="userDao" ref="userDao"/>
     </bean>
 
     <bean id="gameService" class="dushkof.seaWars.services.impl.GameServiceImpl">
