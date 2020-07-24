@@ -10,6 +10,10 @@
     <context:annotation-config/>
 <!--    <context:component-scan base-package="dushkof.seaWars.game"/>-->
 
-    <bean id="userService" class="dushkof.seaWars.services.impl.UserServiceImpl"/>
+    <bean id="userService" class="dushkof.seaWars.services.impl.UserServiceImpl">
+        <property name="gameService" ref="gameService"/>
+    </bean>
+
+    <bean id="gameService" class="dushkof.seaWars.services.impl.GameServiceImpl"/>
 
 </beans>

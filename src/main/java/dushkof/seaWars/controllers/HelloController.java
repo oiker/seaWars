@@ -16,6 +16,6 @@ public class HelloController {
 
     @GetMapping
     public String list() {
-        return "zaluppa";
+        return userService.sayHi();
     }
 }
