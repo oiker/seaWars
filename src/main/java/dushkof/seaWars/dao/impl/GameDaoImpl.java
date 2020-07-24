@@ -13,7 +13,7 @@ public class GameDaoImpl implements GameDao {
         try {
             // создаем таблицы и возвращаем ОК в случае успеха
             JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-            jdbcTemplate.execute("CREATE TABLE users( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, NAME CHAR(20) NOT NULL, PASSWORD CHAR(10) NOT NULL);");
+            jdbcTemplate.execute("CREATE TABLE users( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, NAME CHAR(20) NOT NULL UNIQUE , PASSWORD CHAR(10) NOT NULL);");
             return "OK";
         } catch (Exception e) {
             System.out.println(e.getMessage());
