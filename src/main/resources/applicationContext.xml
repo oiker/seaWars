@@ -24,6 +24,11 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <bean id="userDao" class="dushkof.seaWars.dao.impl.UserDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
 
 
 

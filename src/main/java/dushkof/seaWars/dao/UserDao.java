@@ -4,10 +4,14 @@ public interface UserDao {
 
     /**
      * Save new user in DB.
-     *
-     * @param name User name
+     *  @param name User name
      *
      * @param password Password.
+     * @return
      */
-    public void addUser(String name, String password);
+
+    public String createUser(String name, String password);
+
+
+
 }
