@@ -8,12 +8,34 @@
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config/>
-<!--    <context:component-scan base-package="dushkof.seaWars.game"/>-->
+
+<!--    Services-->
 
     <bean id="userService" class="dushkof.seaWars.services.impl.UserServiceImpl">
         <property name="gameService" ref="gameService"/>
     </bean>
 
-    <bean id="gameService" class="dushkof.seaWars.services.impl.GameServiceImpl"/>
+    <bean id="gameService" class="dushkof.seaWars.services.impl.GameServiceImpl">
+        <property name="gameDao" ref="gameDao"/>
+    </bean>
+
+<!--    DAO-->
+    <bean id="gameDao" class="dushkof.seaWars.dao.impl.GameDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+
+
+
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/seawars" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+    </bean>
+
 
 </beans>
