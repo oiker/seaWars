@@ -6,11 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StringUtils;
+import org.springframework.util.StringUtils;
 
 
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
     private JdbcTemplate jdbcTemplate;
+
 
     @Override
     public String createUser(String name, String password) {
@@ -40,7 +42,8 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-
+        }
+    }
 
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
