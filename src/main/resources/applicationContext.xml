@@ -22,18 +22,16 @@
 
 <!--    DAO-->
     <bean id="gameDao" class="dushkof.seaWars.dao.impl.GameDaoImpl">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
     <bean id="userDao" class="dushkof.seaWars.dao.impl.UserDaoImpl">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-
-
-
-
-
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
