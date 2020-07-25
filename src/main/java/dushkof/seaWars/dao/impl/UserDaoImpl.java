@@ -1,15 +1,20 @@
 package dushkof.seaWars.dao.impl;
 
+import dushkof.seaWars.objects.User;
 import dushkof.seaWars.dao.UserDao;
+import dushkof.seaWars.objects.mappers.UserMapper;
 import org.assertj.core.util.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
+    private static final String GET_USERS_QUERY = "SELECT * FROM users WHERE NAME LIKE '%s';";
     private JdbcTemplate jdbcTemplate;
 
 
@@ -39,6 +44,12 @@ public class UserDaoImpl implements UserDao {
             LOGGER.info(e.getMessage(), e);
             return e.getMessage();
         }
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        List<User> users = getJdbcTemplate().query(String.format(GET_USERS_QUERY, name), new UserMapper());
+        return users.get(0);
     }
 
     public JdbcTemplate getJdbcTemplate() {
