@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String userData(String name, String password) {
+    public String createUser(String name, String password) {
         return userDao.createUser(name, password);
     }
     public GameService getGameService() {
