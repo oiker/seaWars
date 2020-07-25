@@ -19,6 +19,6 @@ public class UserController {
     @RequestMapping(value = "/data", method = RequestMethod.GET)
     public String user(@RequestParam(value = "name") final String name,
                        @RequestParam(value = "password") final String password) {
-        return userService.userData(name, password);
+        return userService.createUser(name, password);
     }
 }
