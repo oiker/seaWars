@@ -21,4 +21,10 @@ public class UserController {
                        @RequestParam(value = "password") final String password) {
         return userService.createUser(name, password);
     }
+
+    @RequestMapping(value = "/check", method = RequestMethod.GET)
+    public String check(@RequestParam(value = "name") final String name,
+                        @RequestParam(value = "password") final String password) {
+        return userService.checkUserPassword(name, password);
+    }
 }
