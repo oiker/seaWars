@@ -32,9 +32,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public String getUserPassword(String name) {
         try {
-            String user = getJdbcTemplate().queryForObject("SELECT PASSWORD FROM users WHERE NAME LIKE '" + name + "';", String.class);
-            LOGGER.info(user);
-            return user;
+            String password = getJdbcTemplate().queryForObject("SELECT PASSWORD FROM users WHERE NAME LIKE '" + name + "';", String.class);
+            LOGGER.info("User " + name + " has password " + password);
+            return password;
         } catch (Exception e) {
             LOGGER.info(e.getMessage(), e);
             return e.getMessage();
