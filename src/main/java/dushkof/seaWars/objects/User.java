@@ -1,4 +1,4 @@
-package dushkof.seaWars.Objects;
+package dushkof.seaWars.objects;
 
 public class User {
 
