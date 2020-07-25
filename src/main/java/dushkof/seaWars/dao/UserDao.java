@@ -12,7 +12,7 @@ public interface UserDao {
 
     public String createUser(String name, String password);
 
-    public String checkUser(String name, String password);
+    public String getUserPassword(String name);
 
 
 

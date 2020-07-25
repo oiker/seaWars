@@ -5,4 +5,6 @@ public interface UserService {
 
     public String createUser(String name, String password);
 
+    public String checkUserPassword(String name, String password);
+
 }
