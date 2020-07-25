@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StringUtils;
 
+
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
     private JdbcTemplate jdbcTemplate;
@@ -25,6 +26,18 @@ public class UserDaoImpl implements UserDao {
             LOGGER.error(e.getMessage(), e);
             return "NOK";
 
+        }
+    }
+
+    @Override
+    public String getUserPassword(String name) {
+        try {
+            String password = getJdbcTemplate().queryForObject("SELECT PASSWORD FROM users WHERE NAME LIKE '" + name + "';", String.class);
+            LOGGER.info("User " + name + " has password " + password);
+            return password;
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage(), e);
+            return e.getMessage();
         }
     }
 
