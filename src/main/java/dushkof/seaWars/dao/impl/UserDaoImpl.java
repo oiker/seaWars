@@ -12,6 +12,7 @@ public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
     private JdbcTemplate jdbcTemplate;
 
+
     @Override
     public String createUser(String name, String password) {
         try {
@@ -39,8 +40,6 @@ public class UserDaoImpl implements UserDao {
             return e.getMessage();
         }
     }
-
-
 
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
