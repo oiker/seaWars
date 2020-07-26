@@ -17,7 +17,7 @@ public class GameController {
         return gameService.createGame(name);
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
     public String connectSecondUser(@RequestParam(value = "name") final String name,
                                     @RequestParam(value = "id") final int id) {
         return gameService.connectSecondUser(id, name);

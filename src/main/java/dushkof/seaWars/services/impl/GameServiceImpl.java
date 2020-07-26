@@ -22,10 +22,6 @@ public class GameServiceImpl implements GameService {
         return null;
     }
 
-    @Override
-    public String connectSecondUser(int id, String name) {
-        return null;
-    }
 
     @Override
     public String connectSecondUser(int id, String name) {
