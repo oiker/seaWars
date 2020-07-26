@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
             return password;
         } catch (Exception e) {
             LOGGER.info(e.getMessage(), e);
-            return e.getMessage();
+            return null;
         }
     }
 

@@ -16,8 +16,8 @@ public class UserController {
     @Resource(name = "userService")
     private UserService userService;
 
-    @RequestMapping(value = "/data", method = RequestMethod.GET)
-    public String user(@RequestParam(value = "name") final String name,
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create(@RequestParam(value = "name") final String name,
                        @RequestParam(value = "password") final String password) {
         return userService.createUser(name, password);
     }
