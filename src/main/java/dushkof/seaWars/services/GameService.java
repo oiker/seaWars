@@ -5,4 +5,6 @@ public interface GameService {
     public String init();
 
     public void startGame();
+
+    public String createGame(String name);
 }

@@ -1,8 +1,8 @@
 package dushkof.seaWars.dao.impl;
 
-import dushkof.seaWars.objects.User;
+import dushkof.seaWars.Objects.User;
 import dushkof.seaWars.dao.UserDao;
-import dushkof.seaWars.objects.mappers.UserMapper;
+import dushkof.seaWars.Objects.mappers.UserMapper;
 import org.assertj.core.util.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
             return password;
         } catch (Exception e) {
             LOGGER.info(e.getMessage(), e);
-            return e.getMessage();
+            return null;
         }
     }
 

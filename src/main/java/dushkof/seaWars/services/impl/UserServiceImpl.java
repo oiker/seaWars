@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String createUser(String name, String password) {
-        return userDao.createUser(name, password);
+        return getUserDao().createUser(name, password);
     }
 
     @Override
@@ -37,6 +37,14 @@ public class UserServiceImpl implements UserService {
 
     public GameService getGameService() {
         return gameService;
+    }
+
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Required
