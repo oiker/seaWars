@@ -11,6 +11,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static java.lang.String.*;
+
 
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
