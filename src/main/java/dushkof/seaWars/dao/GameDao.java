@@ -6,6 +6,6 @@ public interface GameDao {
 
     public void hostJoin(String name);
 
-    public void playerJoin(int id, String name);
+    public void playerJoin(Integer id, String name);
 
 }

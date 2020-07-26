@@ -8,5 +8,5 @@ public interface GameService {
 
     public String createGame(String name);
 
-    public String connectSecondUser(int id, String name);
+    public String connectSecondUser(Integer id, String name);
 }

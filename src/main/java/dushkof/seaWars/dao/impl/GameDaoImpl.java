@@ -15,7 +15,7 @@ public class GameDaoImpl implements GameDao {
     private static final String CREATE_FIELD_TABLE = "CREATE TABLE field( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, GAME INT, CELLS INT );";
     private static final String CREATE_CELLS_TABLE = "CREATE TABLE cells( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, X INT , Y INT , FIELDID INT , STATUS INT, CHECKED BOOL);";
     private static final String HOST_PLAYER_JOIN_TABLE = "INSERT game ( USERHOST ) VALUES('%s');";
-    private static final String SECOND_PLAYER_JOIN_TABLE = "UPDATE game SET SECONDUSER ='%s' WHERE ID =%q;";
+    private static final String SECOND_PLAYER_JOIN_TABLE = "UPDATE game SET SECONDUSER = '%s' WHERE ID = %s;";
     private JdbcTemplate jdbcTemplate;
 
     @Override
@@ -41,7 +41,7 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public void playerJoin(int id, String name) {
+    public void playerJoin(Integer id, String name) {
         getJdbcTemplate().execute(String.format(SECOND_PLAYER_JOIN_TABLE, name, id));
     }
 

@@ -23,7 +23,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public String connectSecondUser(int id, String name) {
+    public String connectSecondUser(Integer id, String name) {
         gameDao.playerJoin(id, name);
         return "Have fun";
     }
