@@ -1,6 +1,6 @@
 package dushkof.seaWars.dao;
 
-import dushkof.seaWars.objects.User;
+import dushkof.seaWars.Objects.User;
 
 public interface UserDao {
 

@@ -14,7 +14,13 @@ public class GameServiceImpl implements GameService {
     @Override
     public void startGame() {
         System.out.println("Game is started!");
-            }
+    }
+
+    @Override
+    public String createGame(String name) {
+        gameDao.hostJoin(name);
+        return "Game creating";
+    }
 
     public void setGameDao(GameDao gameDao) {
         this.gameDao = gameDao;
