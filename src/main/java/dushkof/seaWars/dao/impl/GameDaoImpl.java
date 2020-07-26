@@ -3,12 +3,9 @@ package dushkof.seaWars.dao.impl;
 import dushkof.seaWars.dao.GameDao;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.objects.mappers.GameMapper;
-import dushkof.seaWars.services.impl.GameServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.util.List;
 
