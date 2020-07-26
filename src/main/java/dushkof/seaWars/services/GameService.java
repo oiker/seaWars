@@ -7,4 +7,6 @@ public interface GameService {
     public void startGame();
 
     public String createGame(String name);
+
+    public String connectSecondUser(int id, String name);
 }

@@ -27,6 +27,12 @@ public class GameServiceImpl implements GameService {
         return null;
     }
 
+    @Override
+    public String connectSecondUser(int id, String name) {
+        gameDao.playerJoin(id, name);
+        return "Have fun";
+    }
+
     public void setGameDao(GameDao gameDao) {
         this.gameDao = gameDao;
     }
