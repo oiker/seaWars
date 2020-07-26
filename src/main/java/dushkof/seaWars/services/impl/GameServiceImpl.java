@@ -1,7 +1,10 @@
 package dushkof.seaWars.services.impl;
 
 import dushkof.seaWars.dao.GameDao;
+import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.services.GameService;
+
+import java.util.List;
 
 public class GameServiceImpl implements GameService {
     private GameDao gameDao;
@@ -26,6 +29,10 @@ public class GameServiceImpl implements GameService {
     public String connectSecondUser(Integer id, String name) {
         gameDao.playerJoin(id, name);
         return "Have fun";
+    }
+    @Override
+    public List<Game> foundNewGames() {
+        return getGameDao().foundFreeGames();
     }
 
     public void setGameDao(GameDao gameDao) {
