@@ -1,6 +1,6 @@
-package dushkof.seaWars.Objects.mappers;
+package dushkof.seaWars.objects.mappers;
 
-import dushkof.seaWars.Objects.User;
+import dushkof.seaWars.objects.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
