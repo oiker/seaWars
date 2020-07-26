@@ -1,5 +1,9 @@
 package dushkof.seaWars.services;
 
+import dushkof.seaWars.objects.Game;
+
+import java.util.List;
+
 public interface GameService {
     // метод выполняет инит базы данных, для первого запуска
     public String init();
@@ -7,4 +11,6 @@ public interface GameService {
     public void startGame();
 
     public String createGame(String name);
+
+    List<Game> foundNewGames();
 }

@@ -1,6 +1,8 @@
 package dushkof.seaWars.dao.impl;
 
 import dushkof.seaWars.dao.GameDao;
+import dushkof.seaWars.objects.Game;
+import dushkof.seaWars.objects.mappers.GameMapper;
 import dushkof.seaWars.services.impl.GameServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,12 +10,15 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import java.util.List;
+
 public class GameDaoImpl implements GameDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(GameDaoImpl.class);
     private static final String CREATE_USER_TABLE = "CREATE TABLE users( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, NAME CHAR(20) NOT NULL UNIQUE , PASSWORD CHAR(10) NOT NULL);";
     private static final String CREATE_GAME_TABLE = "CREATE TABLE game( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, USERHOST CHAR(20), SECONDUSER CHAR(20), FIELDID INT, ISSTARTED BOOL);";
     private static final String CREATE_FIELD_TABLE = "CREATE TABLE field( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, GAME INT, CELLS INT );";
     private static final String CREATE_CELLS_TABLE = "CREATE TABLE cells( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, X INT , Y INT , FIELDID INT , STATUS INT, CHECKED BOOL);";
+    private static final String FOUND_GAMES_REQUEST = "SELECT * FROM game WHERE SECONDUSER IS NULL;";
     private JdbcTemplate jdbcTemplate;
 
     @Override
@@ -36,6 +41,12 @@ public class GameDaoImpl implements GameDao {
     @Override
     public void hostJoin(String name) {
         getJdbcTemplate().execute("INSERT game ( USERHOST ) VALUES('" + name + "');");
+    }
+
+    @Override
+    public List<Game> foundFreeGames() {
+        List<Game> games = getJdbcTemplate().query(String.format(FOUND_GAMES_REQUEST), new GameMapper());
+        return games;
     }
 
 
