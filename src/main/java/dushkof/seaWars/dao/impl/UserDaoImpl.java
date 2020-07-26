@@ -1,16 +1,20 @@
 package dushkof.seaWars.dao.impl;
 
+import dushkof.seaWars.objects.User;
 import dushkof.seaWars.dao.UserDao;
+import dushkof.seaWars.objects.mappers.UserMapper;
 import org.assertj.core.util.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StringUtils;
 
-import javax.crypto.spec.PSource;
+import java.util.List;
+
 
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
+    private static final String GET_USERS_QUERY = "SELECT * FROM users WHERE NAME LIKE '%s';";
     private JdbcTemplate jdbcTemplate;
 
 
@@ -31,24 +35,22 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public String checkUser(String name, String password) {
+    public String getUserPassword(String name) {
         try {
-                getJdbcTemplate().execute("SELECT NAME FROM users WHERE NAME LIKE '" + "name" + "');");
-                try{
-                    getJdbcTemplate().execute("SELECT PASSWORD FROM users WHERE EXISTS (SELECT * FROM users WHERE NAME = '"+ name +"');" );
-                    return "OK";
-                }
-                catch (Exception e){
-                    return "Неправильный пароль";
-                }
+            String password = getJdbcTemplate().queryForObject("SELECT PASSWORD FROM users WHERE NAME LIKE '" + name + "';", String.class);
+            LOGGER.info("User " + name + " has password " + password);
+            return password;
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage(), e);
+            return e.getMessage();
         }
-        catch (Exception c){
-            return "Данного пользователя не существует";
-                    }
-
     }
 
-
+    @Override
+    public User getUserByName(String name) {
+        List<User> users = getJdbcTemplate().query(String.format(GET_USERS_QUERY, name), new UserMapper());
+        return users.get(0);
+    }
 
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;

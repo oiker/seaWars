@@ -1,5 +1,7 @@
 package dushkof.seaWars.dao;
 
+import dushkof.seaWars.objects.User;
+
 public interface UserDao {
 
     /**
@@ -12,10 +14,7 @@ public interface UserDao {
 
     public String createUser(String name, String password);
 
-    public String checkUser(String name, String password);
+    public String getUserPassword(String name);
 
-
-
-
-
+    User getUserByName(String name);
 }
