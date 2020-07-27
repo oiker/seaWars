@@ -11,12 +11,12 @@ import java.util.List;
 
 public class GameDaoImpl implements GameDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(GameDaoImpl.class);
-    private static final String CREATE_USER_TABLE = "CREATE TABLE users( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, NAME CHAR(20) NOT NULL UNIQUE , PASSWORD CHAR(10) NOT NULL);";
-    private static final String CREATE_GAME_TABLE = "CREATE TABLE game( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, USERHOST CHAR(20), SECONDUSER CHAR(20), FIELDID INT, ISSTARTED BOOL);";
+    private static final String CREATE_USER_TABLE = "CREATE TABLE users( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, NAME CHAR(20) NOT NULL UNIQUE , PASSWORD CHAR(10) NOT NULL, REGISTRATIONTIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP );";
+    private static final String CREATE_GAME_TABLE = "CREATE TABLE game( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, USERHOST CHAR(20), SECONDUSER CHAR(20), HOSTFIELD INT, JOINFIELD INT , ISSTARTED BOOL, CREATINGTIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FINISHGAME TIMESTAMP );";
     private static final String CREATE_FIELD_TABLE = "CREATE TABLE field( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, GAME INT, CELLS INT );";
     private static final String CREATE_CELLS_TABLE = "CREATE TABLE cells( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, X INT , Y INT , FIELDID INT , STATUS INT, CHECKED BOOL);";
     private static final String FOUND_GAMES_REQUEST = "SELECT * FROM game WHERE SECONDUSER IS NULL;";
-    private static final String HOST_PLAYER_JOIN_TABLE = "INSERT game ( USERHOST ) VALUES('%s');";
+    private static final String HOST_PLAYER_JOIN_TABLE = "INSERT game ( USERHOST, ISSTARTED ) VALUES('%s', FALSE);";
     private static final String SECOND_PLAYER_JOIN_TABLE = "UPDATE game SET SECONDUSER = '%s' WHERE ID = %s;";
     private JdbcTemplate jdbcTemplate;
 
@@ -39,8 +39,20 @@ public class GameDaoImpl implements GameDao {
 
     @Override
     public void hostJoin(String name) {
+        //Если секондплаер null где хост name -> удаляем их таблицы гейм всю строку
+        getJdbcTemplate().execute("DELETE FROM game WHERE USERHOST = '"+ name + "' AND SECONDUSER IS NULL;");
         getJdbcTemplate().execute(String.format(HOST_PLAYER_JOIN_TABLE,name));
     }
+
+    @Override
+    public Integer checkIfGameIsNotFinished(String name){
+        try{
+        Integer checkIfGameIsNotFinished = getJdbcTemplate().queryForObject("SELECT ISSTARTED FROM game WHERE USERHOST LIKE '" + name + "';",Integer.class);
+                return checkIfGameIsNotFinished;
+    }
+        catch (Exception e){
+            return null;
+        }}
 
     @Override
     public void playerJoin(Integer id, String name) {

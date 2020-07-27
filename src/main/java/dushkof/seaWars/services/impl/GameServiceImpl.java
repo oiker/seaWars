@@ -21,6 +21,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public String createGame(String name) {
+
         gameDao.hostJoin(name);
         return "Game creating";
     }

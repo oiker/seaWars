@@ -10,6 +10,8 @@ public interface GameDao {
 
     public void hostJoin(String name);
 
+    public Integer checkIfGameIsNotFinished(String name);
+
     public void playerJoin(Integer id, String name);
 
     public List<Game> foundFreeGames();
