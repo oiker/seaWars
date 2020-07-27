@@ -14,9 +14,11 @@ public class GameMapper implements RowMapper<Game> {
         game.setId(resultSet.getInt("id"));
         game.setUserHost(resultSet.getString("userhost"));
         game.setSecondUser(resultSet.getString("seconduser"));
-        game.setFieldId(resultSet.getInt("fieldid"));
-        //тут надо разобраться как вытягивать булианы из бд
-//        game.setStarted(resultSet.getBoolean("started"));
+        game.setHostField(resultSet.getInt("hostfield"));
+        game.setJoinField(resultSet.getInt("joinfield"));
+        game.setCreatingTime(resultSet.getString("creatingtime"));
+        game.setFinishGame(resultSet.getString("finishgame"));
+        game.setStarted(resultSet.getBoolean("isstarted"));
         return game;
     }
 }
