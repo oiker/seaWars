@@ -35,7 +35,9 @@ public class GameServiceImpl implements GameService {
     }
     @Override
     public List<Game> foundNewGames() {
-        return getGameDao().foundFreeGames();
+        List<Game> games = getGameDao().foundFreeGames();
+        // Здесь нужно пройтись по всем играм и удалить те у которых будут повторяться создатели
+        return games;
     }
 
     public void setGameDao(GameDao gameDao) {
