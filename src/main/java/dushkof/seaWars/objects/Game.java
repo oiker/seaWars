@@ -1,11 +1,16 @@
 package dushkof.seaWars.objects;
 
+
+
 public class Game {
     private int id;
     private String userHost;
     private String secondUser;
-    private int fieldId;
+    private int hostField;
+    private int joinField;
     private boolean isStarted;
+    private String creatingTime;
+    private String finishGame;
 
     public int getId() {
         return id;
@@ -31,12 +36,36 @@ public class Game {
         this.secondUser = secondUser;
     }
 
-    public int getFieldId() {
-        return fieldId;
+    public int getJoinField() {
+        return joinField;
     }
 
-    public void setFieldId(int fieldId) {
-        this.fieldId = fieldId;
+    public void setJoinField(int joinField) {
+        this.joinField = joinField;
+    }
+
+    public int getHostField() {
+        return hostField;
+    }
+
+    public void setHostField(int hostField) {
+        this.hostField = hostField;
+    }
+
+    public String getCreatingTime() {
+        return creatingTime;
+    }
+
+    public void setCreatingTime(String creatingTime) {
+        this.creatingTime = creatingTime;
+    }
+
+    public String getFinishGame() {
+        return finishGame;
+    }
+
+    public void setFinishGame(String finishGame) {
+        this.finishGame = finishGame;
     }
 
     public boolean isStarted() {
