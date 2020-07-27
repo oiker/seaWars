@@ -16,7 +16,7 @@ public class GameDaoImpl implements GameDao {
     private static final String CREATE_FIELD_TABLE = "CREATE TABLE field( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, GAME INT, CELLS INT );";
     private static final String CREATE_CELLS_TABLE = "CREATE TABLE cells( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, X INT , Y INT , FIELDID INT , STATUS INT, CHECKED BOOL);";
     private static final String FOUND_GAMES_REQUEST = "SELECT * FROM game WHERE SECONDUSER IS NULL;";
-    private static final String HOST_PLAYER_JOIN_TABLE = "INSERT game ( USERHOST ) VALUES('%s');";
+    private static final String HOST_PLAYER_JOIN_TABLE = "INSERT game ( USERHOST, ISSTARTED ) VALUES('%s', false);";
     private static final String SECOND_PLAYER_JOIN_TABLE = "UPDATE game SET SECONDUSER = '%s' WHERE ID = %s;";
     private JdbcTemplate jdbcTemplate;
 
@@ -39,7 +39,28 @@ public class GameDaoImpl implements GameDao {
 
     @Override
     public void hostJoin(String name) {
-        getJdbcTemplate().execute(String.format(HOST_PLAYER_JOIN_TABLE,name));
+        try {
+            LOGGER.info("Start DB creating for " + name);
+            getJdbcTemplate().execute("DELETE FROM game WHERE USERHOST = '" + name + "' AND SECONDUSER IS NULL;");
+            getJdbcTemplate().execute(String.format(HOST_PLAYER_JOIN_TABLE, name));
+            LOGGER.info("DB creating is success for " + name);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Integer checkIfGameIsNotFinished(String name){
+        try{
+            LOGGER.info("Start DB checking if game is not finished for " + name);
+            Integer checkIfGameIsNotFinished = getJdbcTemplate().queryForObject("SELECT ISSTARTED FROM game WHERE USERHOST LIKE '" + name + "';",Integer.class);
+            LOGGER.info("Finish DB checking if game is not finished for " + name);
+            return checkIfGameIsNotFinished;
+        }
+        catch (Exception e){
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
     }
 
     @Override

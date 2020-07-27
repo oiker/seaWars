@@ -15,12 +15,12 @@ public class GameController {
     @Resource
     private GameService gameService;
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/host", method = RequestMethod.GET)
     public String createGame(@RequestParam(value = "name") final String name) {
         return gameService.createGame(name);
     }
 
-    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @RequestMapping(value = "/join", method = RequestMethod.GET)
     public String connectSecondUser(@RequestParam(value = "name") final String name,
                                     @RequestParam(value = "id") final Integer id) {
         return gameService.connectSecondUser(id, name);

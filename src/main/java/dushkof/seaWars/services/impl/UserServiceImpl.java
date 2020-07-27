@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkArgument(!StringUtils.isEmpty(name), "Argument name cannot be empty");
         Preconditions.checkArgument(!StringUtils.isEmpty(password), "Argument password cannot be empty");
 
-        String truePassword = userDao.getUserPassword(name);
+        String truePassword = getUserDao().getUserPassword(name);
         if (password.equals(truePassword)) {
             return "OK";
         } return "NOK";
