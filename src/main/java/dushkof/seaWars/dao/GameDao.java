@@ -6,12 +6,14 @@ import java.util.List;
 
 public interface GameDao {
 
-    public String init();
+    String init();
 
-    public void hostJoin(String name);
+    String hostJoin(String name);
 
-    public void playerJoin(Integer id, String name);
+    boolean checkIfGameIsNotFinished(String name);
 
-    public List<Game> foundFreeGames();
+    void playerJoin(Integer id, String name);
+
+    List<Game> foundFreeGames();
 
 }
