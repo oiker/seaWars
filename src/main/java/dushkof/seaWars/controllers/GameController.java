@@ -15,7 +15,7 @@ public class GameController {
     @Resource
     private GameService gameService;
 
-    @RequestMapping(value = "/host", method = RequestMethod.GET)
+    @RequestMapping(value = "/createRoom", method = RequestMethod.GET)
     public String createGame(@RequestParam(value = "name") final String name) {
         return gameService.createGame(name);
     }

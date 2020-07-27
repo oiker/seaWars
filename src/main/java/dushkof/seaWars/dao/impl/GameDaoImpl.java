@@ -18,6 +18,7 @@ public class GameDaoImpl implements GameDao {
     private static final String FOUND_GAMES_REQUEST = "SELECT * FROM game WHERE SECONDUSER IS NULL;";
     private static final String HOST_PLAYER_JOIN_TABLE = "INSERT game ( USERHOST, ISSTARTED ) VALUES('%s', false);";
     private static final String SECOND_PLAYER_JOIN_TABLE = "UPDATE game SET SECONDUSER = '%s' WHERE ID = %s;";
+    private static final String DELETE_NOT_VALID_GAMES = "DELETE FROM game WHERE USERHOST = '%s' AND SECONDUSER IS NULL;";
     private JdbcTemplate jdbcTemplate;
 
     @Override
@@ -38,28 +39,29 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public void hostJoin(String name) {
+    public String hostJoin(String name) {
         try {
-            LOGGER.info("Start DB creating for " + name);
-            getJdbcTemplate().execute("DELETE FROM game WHERE USERHOST = '" + name + "' AND SECONDUSER IS NULL;");
+            LOGGER.info("Creating game for " + name);
+            getJdbcTemplate().execute(String.format(DELETE_NOT_VALID_GAMES, name));
             getJdbcTemplate().execute(String.format(HOST_PLAYER_JOIN_TABLE, name));
-            LOGGER.info("DB creating is success for " + name);
+            LOGGER.info("Creating game is success for " + name);
+            return "OK";
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
+            return "NOK";
         }
     }
 
-    @Override
-    public Integer checkIfGameIsNotFinished(String name){
+    public boolean checkIfGameIsNotFinished(String name){
         try{
-            LOGGER.info("Start DB checking if game is not finished for " + name);
-            Integer checkIfGameIsNotFinished = getJdbcTemplate().queryForObject("SELECT ISSTARTED FROM game WHERE USERHOST LIKE '" + name + "';",Integer.class);
-            LOGGER.info("Finish DB checking if game is not finished for " + name);
+            LOGGER.info("Start checking if game is not finished for " + name);
+            Boolean checkIfGameIsNotFinished = getJdbcTemplate().queryForObject("SELECT ISSTARTED FROM game WHERE USERHOST LIKE '" + name + "';",Boolean.class);
+            LOGGER.info("Finish checking if game is not finished for " + name);
             return checkIfGameIsNotFinished;
         }
         catch (Exception e){
             LOGGER.error(e.getMessage(), e);
-            return null;
+            return false;
         }
     }
 

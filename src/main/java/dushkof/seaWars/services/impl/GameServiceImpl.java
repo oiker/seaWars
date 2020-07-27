@@ -21,13 +21,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public String createGame(String name) {
-        Integer checkIfGameIsNotFinished = getGameDao().checkIfGameIsNotFinished(name);
-        if (!(checkIfGameIsNotFinished == null) && checkIfGameIsNotFinished == 1) {
-            return "Finish previous game";
-        } else {
-            gameDao.hostJoin(name);
-            return "Game creating";
+        Boolean checkIfGameIsNotFinished = getGameDao().checkIfGameIsNotFinished(name);
+        if(checkIfGameIsNotFinished) {
+            return "NOK";
         }
+        return gameDao.hostJoin(name);
     }
 
     @Override
