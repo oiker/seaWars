@@ -31,4 +31,6 @@ public class GameController {
     public List<Game> foundGames() {
         return gameService.foundNewGames();
     }
+
+//    @RequestMapping Requestmethod post
 }

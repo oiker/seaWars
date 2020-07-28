@@ -11,9 +11,11 @@ import java.util.List;
 
 public class GameDaoImpl implements GameDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(GameDaoImpl.class);
+    private static final String DROP_ALL_TABLES = "DROP TABLE IF EXISTS users, cells, game, field, ship;";
+    private static final String CREATE_SHIP_TABLE = "CREATE TABLE ship( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, NUMBEROFCELLS INT, ALLCELLS INT, WOUNDEDCELLS INT, ISALIVE BOOL);";
     private static final String CREATE_USER_TABLE = "CREATE TABLE users( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, NAME CHAR(20) NOT NULL UNIQUE , PASSWORD CHAR(10) NOT NULL, REGISTRATIONTIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP );";
     private static final String CREATE_GAME_TABLE = "CREATE TABLE game( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, USERHOST CHAR(20), SECONDUSER CHAR(20), HOSTFIELD INT, JOINFIELD INT , ISSTARTED BOOL, CREATINGTIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FINISHGAME TIMESTAMP );";
-    private static final String CREATE_FIELD_TABLE = "CREATE TABLE field( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, GAME INT, CELLS INT );";
+    private static final String CREATE_FIELD_TABLE = "CREATE TABLE field( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, GAME INT);";
     private static final String CREATE_CELLS_TABLE = "CREATE TABLE cells( ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, X INT , Y INT , FIELDID INT , STATUS INT, CHECKED BOOL);";
     private static final String FOUND_GAMES_REQUEST = "SELECT * FROM game WHERE SECONDUSER IS NULL;";
     private static final String HOST_PLAYER_JOIN_TABLE = "INSERT game ( USERHOST, ISSTARTED ) VALUES('%s', false);";
@@ -26,6 +28,8 @@ public class GameDaoImpl implements GameDao {
         try {
             // создаем таблицы и возвращаем ОК в случае успеха
             LOGGER.info("Start DB initialization");
+            getJdbcTemplate().execute(DROP_ALL_TABLES);
+            getJdbcTemplate().execute(CREATE_SHIP_TABLE);
             getJdbcTemplate().execute(CREATE_USER_TABLE);
             getJdbcTemplate().execute(CREATE_GAME_TABLE);
             getJdbcTemplate().execute(CREATE_FIELD_TABLE);
