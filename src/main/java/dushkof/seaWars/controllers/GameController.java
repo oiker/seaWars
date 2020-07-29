@@ -1,5 +1,8 @@
 package dushkof.seaWars.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.Gson;
+import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.services.GameService;
 import org.springframework.http.MediaType;
@@ -32,5 +35,13 @@ public class GameController {
         return gameService.foundNewGames();
     }
 
-//    @RequestMapping Requestmethod post
+    @PostMapping(value = "/getfield")
+    @ResponseBody
+    public Field getField() throws JsonProcessingException {
+//        Field field = new Gson().fromJson("{ \"game\" : 1 }", Field.class);
+        String json = new Gson().toJson("http://localhost:8080/game/getfield)");
+        Field field = new Gson().fromJson(json , Field.class);
+        System.out.println(field.getGame());
+        return field;
+    }
 }

@@ -1,6 +1,7 @@
 package dushkof.seaWars.services.impl;
 
 import dushkof.seaWars.dao.GameDao;
+import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.services.GameService;
 
@@ -40,6 +41,7 @@ public class GameServiceImpl implements GameService {
         // Здесь нужно пройтись по всем играм и удалить те у которых будут повторяться создатели
         return games;
     }
+
 
     public void setGameDao(GameDao gameDao) {
         this.gameDao = gameDao;

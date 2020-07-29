@@ -1,5 +1,6 @@
 package dushkof.seaWars.services;
 
+import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 
 import java.util.List;
