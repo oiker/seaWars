@@ -2,7 +2,6 @@ package dushkof.seaWars.dao.impl;
 
 import dushkof.seaWars.objects.User;
 import dushkof.seaWars.dao.UserDao;
-import dushkof.seaWars.objects.mappers.UserMapper;
 import org.assertj.core.util.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,8 +47,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByName(String name) {
-        List<User> users = getJdbcTemplate().query(String.format(GET_USERS_QUERY, name), new UserMapper());
-        return users.get(0);
+        return null;
     }
 
     public JdbcTemplate getJdbcTemplate() {

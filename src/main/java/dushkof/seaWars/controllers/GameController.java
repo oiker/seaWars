@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
+import dushkof.seaWars.repo.FieldRepo;
 import dushkof.seaWars.services.GameService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ public class GameController {
 
     @Resource
     private GameService gameService;
+
+    @Resource
+    private FieldRepo fieldRepo;
 
     @RequestMapping(value = "/createRoom", method = RequestMethod.GET)
     public String createGame(@RequestParam(value = "name") final String name) {
@@ -39,9 +43,10 @@ public class GameController {
 
     @RequestMapping(value = "/getfield", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Field getField(@RequestBody String json) throws JsonProcessingException {
+    public String getField(@RequestBody String json) throws JsonProcessingException {
         Field field = new Gson().fromJson(json, Field.class);
-        return null;
+        fieldRepo.save(field);
+        return "hui";
     }
 
 }

@@ -44,9 +44,7 @@ public class GameServiceImpl implements GameService {
     public List<Game> checkRepeatGames(List<Game> games) {
         List<Game> newGames = new ArrayList<>();
         for (Game game : games) {
-            if (countUserHosts(games, game.getUserHost()) == 1) {
-                newGames.add(game);
-            }
+
         }
         return newGames;
     }

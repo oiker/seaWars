@@ -1,42 +1,24 @@
 package dushkof.seaWars.objects;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table
+@ToString(of = {"id"})
+@EqualsAndHashCode(of = {"id"})
 public class Field {
-    private int id;
-    private int game;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @OneToOne
+    private Game game;
+    @OneToMany
     private List<Cell> cells;
+    @OneToMany
     private List<Ship> ships;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getGame() {
-        return game;
-    }
-
-    public void setGame(int game) {
-        this.game = game;
-    }
-
-    public List<Cell> getCells() {
-        return cells;
-    }
-
-    public void setCells(List<Cell> cells) {
-        this.cells = cells;
-    }
-
-    public List<Ship> getShips() {
-        return ships;
-    }
-
-    public void setShips(List<Ship> ships) {
-        this.ships = ships;
-    }
 }

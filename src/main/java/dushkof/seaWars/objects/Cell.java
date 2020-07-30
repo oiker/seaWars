@@ -1,18 +1,30 @@
 package dushkof.seaWars.objects;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import javax.persistence.*;
+
+@Entity
+@Table
+@ToString(of = {"id", "x", "y", "status"})
+@EqualsAndHashCode(of = {"id"})
 public class Cell {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String x;
     private String y;
-    private int fieldId;
+    @ManyToOne
+    private Field fieldId;
     private String status;
     private boolean checked;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -32,11 +44,11 @@ public class Cell {
         this.y = y;
     }
 
-    public int getFieldId() {
+    public Field getFieldId() {
         return fieldId;
     }
 
-    public void setFieldId(int fieldId) {
+    public void setFieldId(Field fieldId) {
         this.fieldId = fieldId;
     }
 

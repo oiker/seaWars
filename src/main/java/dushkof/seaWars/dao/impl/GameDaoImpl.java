@@ -2,7 +2,6 @@ package dushkof.seaWars.dao.impl;
 
 import dushkof.seaWars.dao.GameDao;
 import dushkof.seaWars.objects.Game;
-import dushkof.seaWars.objects.mappers.GameMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -76,8 +75,7 @@ public class GameDaoImpl implements GameDao {
 
     @Override
     public List<Game> foundFreeGames() {
-        List<Game> games = getJdbcTemplate().query(String.format(FOUND_GAMES_REQUEST), new GameMapper());
-        return games;
+        return null;
     }
 
 

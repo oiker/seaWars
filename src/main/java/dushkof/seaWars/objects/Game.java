@@ -1,78 +1,93 @@
 package dushkof.seaWars.objects;
 
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table
+@ToString(of = {"id" })
+@EqualsAndHashCode(of = {"id"})
 public class Game {
-    private int id;
-    private String userHost;
-    private String secondUser;
-    private int hostField;
-    private int joinField;
-    private boolean isStarted;
-    private String creatingTime;
-    private String finishGame;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @OneToOne
+    private User userHost;
+    @OneToOne
+    private User secondUser;
+    @OneToOne
+    private Field hostField;
+    @OneToOne
+    private Field joinField;
+    private Boolean isStarted;
+    private Date creatingTime;
+    private Date finishGame;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getUserHost() {
+    public User getUserHost() {
         return userHost;
     }
 
-    public void setUserHost(String userHost) {
+    public void setUserHost(User userHost) {
         this.userHost = userHost;
     }
 
-    public String getSecondUser() {
+    public User getSecondUser() {
         return secondUser;
     }
 
-    public void setSecondUser(String secondUser) {
+    public void setSecondUser(User secondUser) {
         this.secondUser = secondUser;
     }
 
-    public int getJoinField() {
-        return joinField;
-    }
-
-    public void setJoinField(int joinField) {
-        this.joinField = joinField;
-    }
-
-    public int getHostField() {
+    public Field getHostField() {
         return hostField;
     }
 
-    public void setHostField(int hostField) {
+    public void setHostField(Field hostField) {
         this.hostField = hostField;
     }
 
-    public String getCreatingTime() {
-        return creatingTime;
+    public Field getJoinField() {
+        return joinField;
     }
 
-    public void setCreatingTime(String creatingTime) {
-        this.creatingTime = creatingTime;
+    public void setJoinField(Field joinField) {
+        this.joinField = joinField;
     }
 
-    public String getFinishGame() {
-        return finishGame;
-    }
-
-    public void setFinishGame(String finishGame) {
-        this.finishGame = finishGame;
-    }
-
-    public boolean isStarted() {
+    public Boolean getStarted() {
         return isStarted;
     }
 
-    public void setStarted(boolean started) {
+    public void setStarted(Boolean started) {
         isStarted = started;
+    }
+
+    public Date getCreatingTime() {
+        return creatingTime;
+    }
+
+    public void setCreatingTime(Date creatingTime) {
+        this.creatingTime = creatingTime;
+    }
+
+    public Date getFinishGame() {
+        return finishGame;
+    }
+
+    public void setFinishGame(Date finishGame) {
+        this.finishGame = finishGame;
     }
 }
