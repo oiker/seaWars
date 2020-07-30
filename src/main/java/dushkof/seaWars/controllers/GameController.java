@@ -40,11 +40,9 @@ public class GameController {
 
     @RequestMapping(value = "/getfield", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Field getField() throws JsonProcessingException {
-//        Field field = new Gson().fromJson("{ \"game\" : 1 }", Field.class);
-//        String json = new Gson().toJson("http://localhost:8080/game/getfield)");
-//        Field field = new Gson().toJson("http://localhost:8080/game/getfield" );
-//        System.out.println(test);
+    public Field getField(@RequestBody String json) throws JsonProcessingException {
+        Field field = new Gson().fromJson(json, Field.class);
+//        System.out.println(json);
 //        System.out.println(field.getGame());
         return null;
     }
