@@ -1,7 +1,6 @@
 package dushkof.seaWars.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
 import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
@@ -42,8 +41,6 @@ public class GameController {
     @ResponseBody
     public Field getField(@RequestBody String json) throws JsonProcessingException {
         Field field = new Gson().fromJson(json, Field.class);
-//        System.out.println(json);
-//        System.out.println(field.getGame());
         return null;
     }
 
