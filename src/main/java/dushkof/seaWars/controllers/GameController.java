@@ -1,5 +1,7 @@
 package dushkof.seaWars.controllers;
 
+import com.alibaba.fastjson.JSONException;
+import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.services.GameService;
 import org.springframework.http.MediaType;

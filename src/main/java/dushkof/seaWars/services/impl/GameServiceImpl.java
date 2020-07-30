@@ -4,6 +4,7 @@ import dushkof.seaWars.dao.GameDao;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.services.GameService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameServiceImpl implements GameService {
@@ -36,8 +37,27 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<Game> foundNewGames() {
         List<Game> games = getGameDao().foundFreeGames();
-        // Здесь нужно пройтись по всем играм и удалить те у которых будут повторяться создатели
-        return games;
+        return checkRepeatGames(games);
+    }
+
+    public List<Game> checkRepeatGames(List<Game> games) {
+        List<Game> newGames = new ArrayList<>();
+        for (Game game : games) {
+            if (countUserHosts(games, game.getUserHost()) == 1) {
+                newGames.add(game);
+            }
+        }
+        return newGames;
+    }
+
+    public int countUserHosts(List<Game> games, String userHost) {
+        int count = 0;
+        for (Game game : games) {
+            if (game.getUserHost().equals(userHost)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public void setGameDao(GameDao gameDao) {
