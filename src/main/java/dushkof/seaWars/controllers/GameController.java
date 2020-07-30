@@ -1,6 +1,8 @@
 package dushkof.seaWars.controllers;
 
-import com.alibaba.fastjson.JSONException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
 import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.services.GameService;
@@ -8,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.net.UnknownHostException;
 import java.util.List;
 
 @RestController
@@ -33,4 +36,15 @@ public class GameController {
     public List<Game> foundGames() {
         return gameService.foundNewGames();
     }
+
+
+    @RequestMapping(value = "/getfield", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Field getField(@RequestBody String json) throws JsonProcessingException {
+        Field field = new Gson().fromJson(json, Field.class);
+//        System.out.println(json);
+//        System.out.println(field.getGame());
+        return null;
+    }
+
 }

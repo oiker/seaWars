@@ -1,6 +1,7 @@
 package dushkof.seaWars.services.impl;
 
 import dushkof.seaWars.dao.GameDao;
+import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.services.GameService;
 
