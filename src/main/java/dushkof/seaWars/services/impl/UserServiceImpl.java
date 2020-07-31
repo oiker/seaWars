@@ -2,15 +2,24 @@ package dushkof.seaWars.services.impl;
 
 import dushkof.seaWars.dao.UserDao;
 import dushkof.seaWars.dao.impl.UserDaoImpl;
+import dushkof.seaWars.objects.User;
+import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.GameService;
 import dushkof.seaWars.services.UserService;
-import org.assertj.core.util.Preconditions;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.util.StringUtils;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
+import javax.annotation.Resource;
+import java.util.List;
 
+@Configuration
+@EnableAutoConfiguration
 public class UserServiceImpl implements UserService {
     private GameService gameService;
     private UserDao userDao;
+
+    @Resource
+    UserRepo userRepo;
 
     @Override
     public String sayHi() {
@@ -25,14 +34,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String checkUserPassword(String name, String password) {
-
-        Preconditions.checkArgument(!StringUtils.isEmpty(name), "Argument name cannot be empty");
-        Preconditions.checkArgument(!StringUtils.isEmpty(password), "Argument password cannot be empty");
-
-        String truePassword = getUserDao().getUserPassword(name);
-        if (password.equals(truePassword)) {
-            return "OK";
-        } return "NOK";
+        List<User> user = userRepo.findByNameAndPassword(name, password);
+        if (user.isEmpty()) {
+            return "NOK";
+        } return "OK";
     }
 
 

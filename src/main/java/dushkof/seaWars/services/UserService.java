@@ -1,5 +1,7 @@
 package dushkof.seaWars.services;
 
+import dushkof.seaWars.objects.User;
+
 public interface UserService {
     public String sayHi();
 

@@ -28,16 +28,19 @@ public class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(@RequestParam(value = "name") final String name,
                        @RequestParam(value = "password") final String password) {
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
-        userRepo.save(user);
-        return "hui";
+        User user = new User(name, password);
+        try {
+            userRepo.save(user);
+            return "OK";
+        } catch (Exception e) {
+            e.getMessage();
+            return "NOK";
+        }
     }
 
     @RequestMapping(value = "/check", method = RequestMethod.GET)
     public String check(@RequestParam(value = "name") final String name,
-                        @RequestParam(value = "password") final String password) {
+                      @RequestParam(value = "password") final String password) {
         return userService.checkUserPassword(name, password);
     }
 }

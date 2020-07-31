@@ -19,6 +19,13 @@ public class User {
     private String name;
     private String password;
 
+    protected User() {}
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }
