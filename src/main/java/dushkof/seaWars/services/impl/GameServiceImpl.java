@@ -10,6 +10,7 @@ import dushkof.seaWars.services.GameService;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GameServiceImpl implements GameService {
@@ -33,14 +34,36 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public String createGame(String name) {
-        try {
-            User user = userRepo.findByName(name);
-            Game game = new Game(user);
-            gameRepo.save(game);
-            return "OK";
-        } catch (Exception e) {
+        User user = userRepo.findByName(name);
+        if (user == null) {
             return "NOK";
         }
+        try {
+            List<Game> games = gameRepo.findByUserHost(user);
+            if (!games.isEmpty()) {
+                List<Game> notFinishedGames = new ArrayList<>();
+                for (int i = 0; i < games.size(); i++) {
+                    Game game = games.get(i);
+                    if (!game.getFinished()) {
+                        if (!game.getStarted()) {
+                            notFinishedGames.add(game);
+                        } else {
+                            return "NOK";
+                        }
+                    }
+                }
+                gameRepo.deleteAll(notFinishedGames);
+            }
+            return createGame(user);
+        } catch (Exception e) {
+            e.getMessage();
+            return "NOK";
+        }
+    }
+
+    private String createGame(User user) {
+        gameRepo.save(new Game(user));
+        return "OK";
     }
 
     @Override

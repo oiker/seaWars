@@ -24,6 +24,7 @@ public class Game {
     @OneToOne
     private Field joinField;
     private Boolean isStarted;
+    private Boolean isFinished;
     private Date creatingTime;
     private Date finishGame;
 
@@ -95,5 +96,13 @@ public class Game {
 
     public void setFinishGame(Date finishGame) {
         this.finishGame = finishGame;
+    }
+
+    public Boolean getFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(Boolean finished) {
+        isFinished = finished;
     }
 }
