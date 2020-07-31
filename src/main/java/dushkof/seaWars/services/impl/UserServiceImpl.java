@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String checkUserPassword(String name, String password) {
+
         Preconditions.checkArgument(!StringUtils.isEmpty(name), "Argument name cannot be empty");
         Preconditions.checkArgument(!StringUtils.isEmpty(password), "Argument password cannot be empty");
 
