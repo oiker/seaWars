@@ -27,6 +27,12 @@ public class Game {
     private Date creatingTime;
     private Date finishGame;
 
+    protected Game() {}
+
+    public Game(User userHost) {
+        this.userHost = userHost;
+    }
+
     public Long getId() {
         return id;
     }

@@ -3,8 +3,12 @@ package dushkof.seaWars.services.impl;
 import dushkof.seaWars.dao.GameDao;
 import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
+import dushkof.seaWars.objects.User;
+import dushkof.seaWars.repo.GameRepo;
+import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.GameService;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +25,22 @@ public class GameServiceImpl implements GameService {
         System.out.println("Game is started!");
     }
 
+    @Resource
+    GameRepo gameRepo;
+
+    @Resource
+    UserRepo userRepo;
+
     @Override
     public String createGame(String name) {
-        Boolean checkIfGameIsNotFinished = getGameDao().checkIfGameIsNotFinished(name);
-        if(checkIfGameIsNotFinished) {
+        try {
+            User user = userRepo.findByName(name);
+            Game game = new Game(user);
+            gameRepo.save(game);
+            return "OK";
+        } catch (Exception e) {
             return "NOK";
         }
-        return gameDao.hostJoin(name);
     }
 
     @Override

@@ -4,13 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
+import dushkof.seaWars.objects.User;
 import dushkof.seaWars.repo.FieldRepo;
 import dushkof.seaWars.services.GameService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.net.UnknownHostException;
 import java.util.List;
 
 @RestController
