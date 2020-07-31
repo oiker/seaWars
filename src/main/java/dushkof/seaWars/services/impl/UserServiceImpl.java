@@ -34,10 +34,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String checkUserPassword(String name, String password) {
-        List<User> user = userRepo.findByNameAndPassword(name, password);
-        if (user.isEmpty()) {
+        try {
+            if (userRepo.findByName(name).getPassword().equals(password)) {
+                return "OK";
+            } else return "NOK";
+        } catch (Exception e) {
+            e.getMessage();
             return "NOK";
-        } return "OK";
+        }
     }
 
 
