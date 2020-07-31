@@ -44,9 +44,17 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public String connectSecondUser(Integer id, String name) {
-        gameDao.playerJoin(id, name);
-        return "Have fun";
+    public String connectSecondUser(Long id, String name) {
+        try{
+            User secondUser = userRepo.findByName(name);
+            Game game = gameRepo.findGameById(id);
+            game.setSecondUser(secondUser);
+            gameRepo.save(game);
+            return "OK";}
+        catch (Exception e){
+            System.out.println(e);
+            return "NOK";
+        }
     }
     @Override
     public List<Game> foundNewGames() {

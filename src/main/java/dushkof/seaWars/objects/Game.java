@@ -33,6 +33,10 @@ public class Game {
         this.userHost = userHost;
     }
 
+    public Game(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

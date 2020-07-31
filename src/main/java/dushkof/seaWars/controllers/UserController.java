@@ -18,6 +18,8 @@ public class UserController {
 
     @Resource(name = "userService")
     private UserService userService;
+
+    @Resource
     private UserRepo userRepo;
 
     @Autowired

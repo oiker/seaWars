@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface GameService {
     // метод выполняет инит базы данных, для первого запуска
-    public String init();
+    String init();
 
-    public void startGame();
+    void startGame();
 
-    public String createGame(String name);
+    String createGame(String name);
 
-    public String connectSecondUser(Integer id, String name);
+    String connectSecondUser(Long id, String name);
 
     List<Game> foundNewGames();
 }

@@ -6,6 +6,8 @@ import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.objects.User;
 import dushkof.seaWars.repo.FieldRepo;
+import dushkof.seaWars.repo.GameRepo;
+import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.GameService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,13 @@ public class GameController {
     private GameService gameService;
 
     @Resource
+    UserRepo userRepo;
+
+    @Resource
     private FieldRepo fieldRepo;
+
+    @Resource
+    private GameRepo gameRepo;
 
     @RequestMapping(value = "/createRoom", method = RequestMethod.GET)
     public String createGame(@RequestParam(value = "name") final String name) {
@@ -30,7 +38,7 @@ public class GameController {
 
     @RequestMapping(value = "/join", method = RequestMethod.GET)
     public String connectSecondUser(@RequestParam(value = "name") final String name,
-                                    @RequestParam(value = "id") final Integer id) {
+                                    @RequestParam(value = "id") final Long id) {
         return gameService.connectSecondUser(id, name);
     }
 
