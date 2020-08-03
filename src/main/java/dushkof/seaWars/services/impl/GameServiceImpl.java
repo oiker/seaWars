@@ -1,7 +1,5 @@
 package dushkof.seaWars.services.impl;
 
-import dushkof.seaWars.dao.GameDao;
-import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.objects.User;
 import dushkof.seaWars.repo.GameRepo;
@@ -10,16 +8,9 @@ import dushkof.seaWars.services.GameService;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class GameServiceImpl implements GameService {
-    private GameDao gameDao;
-
-    @Override
-    public String init() {
-        return gameDao.init();
-    }
 
     @Override
     public void startGame() {
@@ -103,13 +94,5 @@ public class GameServiceImpl implements GameService {
             }
         }
         return count;
-    }
-
-    public void setGameDao(GameDao gameDao) {
-        this.gameDao = gameDao;
-    }
-
-    public GameDao getGameDao() {
-        return gameDao;
     }
 }

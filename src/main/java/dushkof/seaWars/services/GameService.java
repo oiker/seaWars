@@ -7,8 +7,6 @@ import dushkof.seaWars.objects.User;
 import java.util.List;
 
 public interface GameService {
-    // метод выполняет инит базы данных, для первого запуска
-    String init();
 
     void startGame();
 
