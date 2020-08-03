@@ -16,7 +16,7 @@ public class Cell {
     private String x;
     private String y;
     @ManyToOne
-    private Field fieldId;
+    private Field field;
     private String status;
     private boolean checked;
 
@@ -44,12 +44,12 @@ public class Cell {
         this.y = y;
     }
 
-    public Field getFieldId() {
-        return fieldId;
+    public Field getField() {
+        return field;
     }
 
-    public void setFieldId(Field fieldId) {
-        this.fieldId = fieldId;
+    public void setField(Field field) {
+        this.field = field;
     }
 
     public String getStatus() {
