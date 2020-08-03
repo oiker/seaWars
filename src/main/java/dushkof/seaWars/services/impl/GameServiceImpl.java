@@ -82,18 +82,20 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<Game> foundNewGames() {
         List<Game> games = gameRepo.findGameBySecondUser(null);
-        return games;
+        return checkRepeatGames(games);
     }
 
     public List<Game> checkRepeatGames(List<Game> games) {
         List<Game> newGames = new ArrayList<>();
         for (Game game : games) {
-
+            if (countUserHosts(games, game.getUserHost()) == 1) {
+                newGames.add(game);
+            } else gameRepo.delete(game);
         }
         return newGames;
     }
 
-    public int countUserHosts(List<Game> games, String userHost) {
+    public int countUserHosts(List<Game> games, User userHost) {
         int count = 0;
         for (Game game : games) {
             if (game.getUserHost().equals(userHost)) {
