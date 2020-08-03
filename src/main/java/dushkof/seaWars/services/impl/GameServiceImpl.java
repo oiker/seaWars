@@ -95,4 +95,8 @@ public class GameServiceImpl implements GameService {
         }
         return count;
     }
+
+    public void setGameRepo(GameRepo gameRepo) {
+        this.gameRepo = gameRepo;
+    }
 }

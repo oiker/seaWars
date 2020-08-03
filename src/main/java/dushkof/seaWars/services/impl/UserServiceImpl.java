@@ -33,6 +33,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public void setUserRepo(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    public UserRepo getUserRepo() {
+        return userRepo;
+    }
+
+    public void setGameService(GameServiceImpl gameService) {
+        this.gameService = gameService;
+    }
+
     public GameService getGameService() {
         return gameService;
     }
