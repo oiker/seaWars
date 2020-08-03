@@ -81,8 +81,8 @@ public class GameServiceImpl implements GameService {
     }
     @Override
     public List<Game> foundNewGames() {
-        List<Game> games = getGameDao().foundFreeGames();
-        return checkRepeatGames(games);
+        List<Game> games = gameRepo.findGameBySecondUser(null);
+        return games;
     }
 
     public List<Game> checkRepeatGames(List<Game> games) {
