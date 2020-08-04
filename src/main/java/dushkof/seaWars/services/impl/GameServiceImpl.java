@@ -6,6 +6,7 @@ import dushkof.seaWars.repo.FieldRepo;
 import dushkof.seaWars.repo.GameRepo;
 import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.GameService;
+import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,5 +148,27 @@ public class GameServiceImpl implements GameService {
         field.setShips(ships);
         field.setCells(cells);
         return field;
+    }
+
+    @Override
+    public String leaveGame(String name, Long gameId) {
+        try {
+            Game game = gameRepo.findGameById(gameId);
+            if (BooleanUtils.isNotTrue(game.getStarted())) {
+                if (game.getUserHost().getName().equals(name)) {
+                    game.setFinished(true);
+                } else if (game.getSecondUser().getName().equals(name)) {
+                    game.setSecondUser(null);
+                }
+            } else if (game.getStarted() == true) {
+                if (game.getUserHost().getName().equals(name) || game.getSecondUser().getName().equals(name)) {
+                    game.setFinished(true);
+                }
+            }
+            return "OK";
+        } catch (Exception e) {
+            e.getMessage();
+            return "NOK";
+        }
     }
 }
