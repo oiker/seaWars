@@ -25,6 +25,7 @@ public class Ship {
 
     public Ship(Integer numberOfCells){
         this.numberOfCells = numberOfCells;
+        this.isAlive = true;
     }
 
     public Long getId() {

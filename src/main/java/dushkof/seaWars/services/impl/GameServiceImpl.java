@@ -71,6 +71,9 @@ public class GameServiceImpl implements GameService {
         try {
             User secondUser = userRepo.findByName(name);
             Game game = gameRepo.findGameById(id);
+            if (secondUser.equals(game.getUserHost())){
+                return "NOK";
+            }
             game.setSecondUser(secondUser);
             gameRepo.save(game);
             return "OK";
@@ -84,6 +87,12 @@ public class GameServiceImpl implements GameService {
     public List<Game> foundNewGames() {
         List<Game> games = gameRepo.findGameBySecondUser(null);
         return checkRepeatGames(games);
+    }
+
+    @Override
+    public Game getGameById(Long gameId) {
+        Game game = gameRepo.findGameById(gameId);
+        return game;
     }
 
     public List<Game> checkRepeatGames(List<Game> games) {

@@ -3,6 +3,8 @@ package dushkof.seaWars.objects;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,6 +31,11 @@ public class Game {
     private Date finishGame;
 
     protected Game() {}
+
+    @PrePersist
+    protected void onCreate(){
+        creatingTime = new Date();
+    }
 
     public Game(User userHost) {
         this.userHost = userHost;

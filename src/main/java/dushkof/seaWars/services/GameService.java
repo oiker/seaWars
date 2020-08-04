@@ -16,4 +16,6 @@ public interface GameService {
     String connectSecondUser(Long id, String name);
 
     List<Game> foundNewGames();
+
+    Game getGameById(Long gameId);
 }
