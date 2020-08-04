@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
+import dushkof.seaWars.objects.User;
 import dushkof.seaWars.repo.FieldRepo;
 import dushkof.seaWars.repo.GameRepo;
 import dushkof.seaWars.repo.UserRepo;
@@ -52,15 +53,12 @@ public class GameController {
     public Field getField(@RequestParam(value = "name") final String name,
                            @RequestParam(value = "gameId") final Long gameId) {
         return gameService.createField(name, gameId);
-        }
+    }
 
-
-
-//    @RequestMapping(value = "/saveField", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public String getField(@RequestBody String json) throws JsonProcessingException {
-//        Field field = new Gson().fromJson(json, Field.class);
-//        fieldRepo.save(field);
-//        return "hui";
-//    }
+    @RequestMapping(value = "/leave", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String leaveGames(@RequestParam(value = "name") final String name,
+                                 @RequestParam(value = "gameId") final Long gameId) {
+        return gameService.leaveGame(name, gameId);
+    }
 }
