@@ -1,10 +1,13 @@
 package dushkof.seaWars.services.impl;
 
-import dushkof.seaWars.objects.Game;
-import dushkof.seaWars.objects.User;
+import dushkof.seaWars.controllers.HelloController;
+import dushkof.seaWars.objects.*;
+import dushkof.seaWars.repo.FieldRepo;
 import dushkof.seaWars.repo.GameRepo;
 import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.GameService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -12,10 +15,16 @@ import java.util.List;
 
 public class GameServiceImpl implements GameService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
+    private Integer FIELD_SIZE = 4;
+
     @Override
     public void startGame() {
         System.out.println("Game is started!");
     }
+
+    @Resource
+    FieldRepo fieldRepo;
 
     @Resource
     GameRepo gameRepo;
@@ -26,17 +35,17 @@ public class GameServiceImpl implements GameService {
     @Override
     public String createGame(String name) {
         User user = userRepo.findByName(name);
-        if (user == null) {
+        if ( user == null ) {
             return "NOK";
         }
         try {
             List<Game> games = gameRepo.findByUserHost(user);
-            if (!games.isEmpty()) {
+            if ( !games.isEmpty() ) {
                 List<Game> notFinishedGames = new ArrayList<>();
                 for (int i = 0; i < games.size(); i++) {
                     Game game = games.get(i);
-                    if (!game.getFinished()) {
-                        if (!game.getStarted()) {
+                    if ( !game.getFinished() ) {
+                        if ( !game.getStarted() ) {
                             notFinishedGames.add(game);
                         } else {
                             return "NOK";
@@ -59,17 +68,18 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public String connectSecondUser(Long id, String name) {
-        try{
+        try {
             User secondUser = userRepo.findByName(name);
             Game game = gameRepo.findGameById(id);
             game.setSecondUser(secondUser);
             gameRepo.save(game);
-            return "OK";}
-        catch (Exception e){
+            return "OK";
+        } catch (Exception e) {
             System.out.println(e);
             return "NOK";
         }
     }
+
     @Override
     public List<Game> foundNewGames() {
         List<Game> games = gameRepo.findGameBySecondUser(null);
@@ -79,7 +89,7 @@ public class GameServiceImpl implements GameService {
     public List<Game> checkRepeatGames(List<Game> games) {
         List<Game> newGames = new ArrayList<>();
         for (Game game : games) {
-            if (countUserHosts(games, game.getUserHost()) == 1) {
+            if ( countUserHosts(games, game.getUserHost()) == 1 ) {
                 newGames.add(game);
             } else gameRepo.delete(game);
         }
@@ -89,14 +99,44 @@ public class GameServiceImpl implements GameService {
     public int countUserHosts(List<Game> games, User userHost) {
         int count = 0;
         for (Game game : games) {
-            if (game.getUserHost().equals(userHost)) {
+            if ( game.getUserHost().equals(userHost) ) {
                 count++;
             }
         }
         return count;
     }
 
-    public void setGameRepo(GameRepo gameRepo) {
-        this.gameRepo = gameRepo;
+    @Override
+    public Field createField(String name, Long gameId) {
+        Game game = gameRepo.findGameById(gameId);
+        User user = userRepo.findByName(name);
+        Field field = createField();
+        field.setGame(game);
+        field.setUser(user);
+        try {
+            fieldRepo.save(field);
+            return field;
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage());
+            return null;
+        }
+    }
+
+    private Field createField() {
+        Field field = new Field();
+        List<Cell> cells = new ArrayList<>();
+        for (int i = 1; i <= FIELD_SIZE; i++) {
+            for (int q = 1; q <= FIELD_SIZE; q++) {
+                cells.add(new Cell(i, q));
+            }
+        }
+        List<Ship> ships = new ArrayList<>();
+        Ship ship1 = new Ship(2);
+        Ship ship2 = new Ship(2);
+        ships.add(ship1);
+        ships.add(ship2);
+        field.setShips(ships);
+        field.setCells(cells);
+        return field;
     }
 }

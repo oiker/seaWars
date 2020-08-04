@@ -15,13 +15,17 @@ public class Ship {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer numberOfCells;
-    @ManyToOne
-    private Field field;
     @OneToMany
     private List<Cell> allCells;
     @OneToMany
     private List<Cell> woundedCells;
     private boolean isAlive;
+
+    protected Ship(){}
+
+    public Ship(Integer numberOfCells){
+        this.numberOfCells = numberOfCells;
+    }
 
     public Long getId() {
         return id;
@@ -37,14 +41,6 @@ public class Ship {
 
     public void setNumberOfCells(Integer numberOfCells) {
         this.numberOfCells = numberOfCells;
-    }
-
-    public Field getField() {
-        return field;
-    }
-
-    public void setField(Field field) {
-        this.field = field;
     }
 
     public List<Cell> getAllCells() {

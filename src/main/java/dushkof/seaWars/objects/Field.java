@@ -2,6 +2,7 @@ package dushkof.seaWars.objects;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,13 +15,13 @@ public class Field {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Game game;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Cell> cells;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Ship> ships;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
     public Long getId() {

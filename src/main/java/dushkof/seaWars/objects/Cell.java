@@ -13,12 +13,21 @@ public class Cell {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String x;
-    private String y;
+    private Integer x;
+    private Integer y;
     @ManyToOne
     private Field field;
     private String status;
     private boolean checked;
+
+    protected Cell(){
+    }
+
+    public Cell(int x, int y){
+        this.x = x;
+        this.y = y;
+        checked = false;
+    }
 
     public Long getId() {
         return id;
@@ -28,19 +37,19 @@ public class Cell {
         this.id = id;
     }
 
-    public String getX() {
+    public Integer getX() {
         return x;
     }
 
-    public void setX(String x) {
+    public void setX(Integer x) {
         this.x = x;
     }
 
-    public String getY() {
+    public Integer getY() {
         return y;
     }
 
-    public void setY(String y) {
+    public void setY(Integer y) {
         this.y = y;
     }
 

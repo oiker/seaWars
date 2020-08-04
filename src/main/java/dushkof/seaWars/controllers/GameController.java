@@ -47,12 +47,20 @@ public class GameController {
         return gameService.foundNewGames();
     }
 
-
-    @RequestMapping(value = "/saveField", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getField", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getField(@RequestBody String json) throws JsonProcessingException {
-        Field field = new Gson().fromJson(json, Field.class);
-        fieldRepo.save(field);
-        return "hui";
-    }
+    public Field getField(@RequestParam(value = "name") final String name,
+                           @RequestParam(value = "gameId") final Long gameId) {
+        return gameService.createField(name, gameId);
+        }
+
+
+
+//    @RequestMapping(value = "/saveField", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String getField(@RequestBody String json) throws JsonProcessingException {
+//        Field field = new Gson().fromJson(json, Field.class);
+//        fieldRepo.save(field);
+//        return "hui";
+//    }
 }
