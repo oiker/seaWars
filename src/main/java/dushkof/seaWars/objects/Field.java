@@ -23,6 +23,7 @@ public class Field {
     private List<Ship> ships;
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
+    private boolean isReady;
 
     public Long getId() {
         return id;
@@ -62,5 +63,13 @@ public class Field {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
     }
 }

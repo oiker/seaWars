@@ -74,7 +74,11 @@ public class GameController {
     public String getField(@RequestBody String json) throws JsonProcessingException {
         try{
         Field field = new Gson().fromJson(json, Field.class);
+        field.setReady(Boolean.TRUE);
         fieldRepo.save(field);
+        if(field.getGame() != null) {
+            gameService.startGame(field.getGame().getId());
+        }
         return "OK";
     }
         catch (Exception e){

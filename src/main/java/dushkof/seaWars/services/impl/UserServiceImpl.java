@@ -17,7 +17,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String sayHi() {
-        gameService.startGame();
         return "hi";
     }
 

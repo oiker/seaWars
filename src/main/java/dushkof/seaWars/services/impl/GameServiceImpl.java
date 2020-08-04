@@ -13,16 +13,12 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GameServiceImpl implements GameService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
     private Integer FIELD_SIZE = 4;
-
-    @Override
-    public void startGame() {
-        System.out.println("Game is started!");
-    }
 
     @Resource
     FieldRepo fieldRepo;
@@ -171,4 +167,16 @@ public class GameServiceImpl implements GameService {
             return "NOK";
         }
     }
+
+    @Override
+    public void startGame(Long gameId) {
+        Game game = gameRepo.getOne(gameId);
+        if (Optional.ofNullable(game.getJoinField()).isPresent() && Optional.ofNullable(game.getHostField()).isPresent()) {
+            if (game.getJoinField().isReady() && game.getHostField().isReady()) {
+                game.setStarted(Boolean.TRUE);
+                gameRepo.save(game);
+            }
+        }
+    }
+
 }
