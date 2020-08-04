@@ -156,7 +156,7 @@ public class GameServiceImpl implements GameService {
                 } else if (game.getSecondUser().getName().equals(name)) {
                     game.setSecondUser(null);
                 }
-            } else if (game.getStarted() == true) {
+            } else {
                 if (game.getUserHost().getName().equals(name) || game.getSecondUser().getName().equals(name)) {
                     game.setFinished(true);
                 }
