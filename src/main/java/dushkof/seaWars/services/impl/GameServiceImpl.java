@@ -161,6 +161,7 @@ public class GameServiceImpl implements GameService {
                     game.setFinished(true);
                 }
             }
+            gameRepo.save(game);
             return "OK";
         } catch (Exception e) {
             e.getMessage();
