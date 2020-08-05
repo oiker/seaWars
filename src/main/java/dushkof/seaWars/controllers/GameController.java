@@ -8,15 +8,19 @@ import dushkof.seaWars.repo.FieldRepo;
 import dushkof.seaWars.repo.GameRepo;
 import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.GameService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("game")
 public class GameController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
 
     @Resource
     private GameService gameService;
@@ -31,7 +35,7 @@ public class GameController {
     private GameRepo gameRepo;
 
     @RequestMapping(value = "/createRoom", method = RequestMethod.GET)
-    public String createGame(@RequestParam(value = "name") final String name) {
+    public String createGame(@RequestParam(value = "name") final String name) throws IOException {
         return gameService.createGame(name);
     }
 
@@ -50,7 +54,7 @@ public class GameController {
     @RequestMapping(value = "/getField", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Field getField(@RequestParam(value = "name") final String name,
-                           @RequestParam(value = "gameId") final Long gameId) {
+                           @RequestParam(value = "gameId") final Long gameId) throws IOException {
         return gameService.createField(name, gameId);
         }
 
@@ -61,7 +65,7 @@ public class GameController {
         return gameService.leaveGame(name, gameId);
     }
 
-    @RequestMapping(value = "updateGame", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/updateGame", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Game updateGame(@RequestParam(value = "gameId") final Long gameId){
         return gameService.getGameById(gameId);
@@ -79,9 +83,12 @@ public class GameController {
         if(field.getGame() != null) {
             gameService.startGame(field.getGame().getId());
         }
+        LOGGER.info("Save field with ships");
         return "OK";
     }
         catch (Exception e){
+            LOGGER.info(e.getMessage());
             return "NOK";
         }
-}}
+    }
+}
