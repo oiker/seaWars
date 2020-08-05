@@ -1,50 +1,75 @@
 package dushkof.seaWars.objects;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import javax.persistence.*;
+
+@Entity
+@Table
+@ToString(of = {"id", "x", "y", "status"})
+@EqualsAndHashCode(of = {"id"})
 public class Cell {
-    private int id;
-    private String x;
-    private String y;
-    private int fieldId;
-    private String status;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private Integer x;
+    private Integer y;
+    @ManyToOne
+    private Field field;
+    private Long status;
     private boolean checked;
 
-    public int getId() {
+    protected Cell(){
+    }
+
+    public Cell(int x, int y){
+        this.x = x;
+        this.y = y;
+        checked = false;
+    }
+
+    public Cell(Long cellId) {
+        this.id = cellId;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getX() {
+    public Integer getX() {
         return x;
     }
 
-    public void setX(String x) {
+    public void setX(Integer x) {
         this.x = x;
     }
 
-    public String getY() {
+    public Integer getY() {
         return y;
     }
 
-    public void setY(String y) {
+    public void setY(Integer y) {
         this.y = y;
     }
 
-    public int getFieldId() {
-        return fieldId;
+    public Field getField() {
+        return field;
     }
 
-    public void setFieldId(int fieldId) {
-        this.fieldId = fieldId;
+    public void setField(Field field) {
+        this.field = field;
     }
 
-    public String getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 

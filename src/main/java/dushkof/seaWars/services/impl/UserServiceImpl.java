@@ -1,58 +1,57 @@
 package dushkof.seaWars.services.impl;
 
-import dushkof.seaWars.dao.UserDao;
-import dushkof.seaWars.dao.impl.UserDaoImpl;
+import dushkof.seaWars.controllers.HelloController;
+import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.GameService;
 import dushkof.seaWars.services.UserService;
-import org.assertj.core.util.Preconditions;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
+import javax.annotation.Resource;
 
+@Configuration
+@EnableAutoConfiguration
 public class UserServiceImpl implements UserService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
     private GameService gameService;
-    private UserDao userDao;
+
+    @Resource
+    UserRepo userRepo;
 
     @Override
     public String sayHi() {
-        gameService.startGame();
         return "hi";
     }
 
     @Override
-    public String createUser(String name, String password) {
-        return getUserDao().createUser(name, password);
-    }
-
-    @Override
     public String checkUserPassword(String name, String password) {
-        Preconditions.checkArgument(!StringUtils.isEmpty(name), "Argument name cannot be empty");
-        Preconditions.checkArgument(!StringUtils.isEmpty(password), "Argument password cannot be empty");
-
-        String truePassword = getUserDao().getUserPassword(name);
-        if (password.equals(truePassword)) {
-            return "OK";
-        } return "NOK";
+        try {
+            if (userRepo.findByName(name).getPassword().equals(password)) {
+                LOGGER.info("Password for user " + name + " is true");
+                return "OK";
+            } else
+                LOGGER.info("Incorrect password for " + name);
+            return "NOK";
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage());
+            return "NOK";
+        }
     }
 
-
-    public GameService getGameService() {
-        return gameService;
+    public void setUserRepo(UserRepo userRepo) {
+        this.userRepo = userRepo;
     }
 
-    public UserDao getUserDao() {
-        return userDao;
+    public UserRepo getUserRepo() {
+        return userRepo;
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    @Required
-    public void setGameService(GameService gameService) {
+    public void setGameService(GameServiceImpl gameService) {
         this.gameService = gameService;
     }
 
-    public void setUserDao(UserDaoImpl userDao) {
-        this.userDao = userDao;
+    public GameService getGameService() {
+        return gameService;
     }
 }
