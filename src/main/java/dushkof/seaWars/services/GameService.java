@@ -1,18 +1,25 @@
 package dushkof.seaWars.services;
 
+import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public interface GameService {
-    // метод выполняет инит базы данных, для первого запуска
-    public String init();
 
-    public void startGame();
+    Field createField(String name, Long gameId) throws IOException;
 
-    public String createGame(String name);
+    void startGame(Long gameId);
 
-    public String connectSecondUser(Integer id, String name);
+    String createGame(String name) throws IOException;
+
+    String connectSecondUser(Long id, String name);
 
     List<Game> foundNewGames();
+
+    String leaveGame(String name, Long gameId);
+
+    Game getGameById(Long gameId);
 }

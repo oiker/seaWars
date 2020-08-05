@@ -30,10 +30,4 @@ public class HelloController {
         LOGGER.trace("test trace");
         return userService.sayHi();
     }
-
-    @GetMapping("/init")
-    public String init() {
-        return gameService.init();
-    }
-
 }
