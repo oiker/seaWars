@@ -3,6 +3,8 @@ package dushkof.seaWars.controllers;
 import dushkof.seaWars.objects.User;
 import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("user")
 public class UserController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
 
     @Resource(name = "userService")
     private UserService userService;
@@ -33,9 +36,11 @@ public class UserController {
         User user = new User(name, password);
         try {
             userRepo.save(user);
+            LOGGER.info("User " + name + " is created");
             return "OK";
         } catch (Exception e) {
-            e.getMessage();
+            LOGGER.info("User " + name + " not created");
+            LOGGER.info(e.getMessage());
             return "NOK";
         }
     }
