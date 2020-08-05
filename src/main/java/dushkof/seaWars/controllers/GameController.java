@@ -80,10 +80,10 @@ public class GameController {
         Field field = new Gson().fromJson(json, Field.class);
         field.setReady(Boolean.TRUE);
         fieldRepo.save(field);
-        if(field.getGame() != null) {
-            gameService.startGame(field.getGame().getId());
+        if(field.getGameID() != null) {
+            gameService.startGame(field.getGameID());
         }
-        LOGGER.info("Save field with ships");
+        LOGGER.info(String.format("Save field %s with ships", field.getId()));
         return "OK";
     }
         catch (Exception e){

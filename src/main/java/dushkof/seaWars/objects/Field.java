@@ -15,8 +15,7 @@ public class Field {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Game game;
+    private Long gameID;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Cell> cells;
     @OneToMany(cascade = CascadeType.ALL)
@@ -33,12 +32,12 @@ public class Field {
         this.id = id;
     }
 
-    public Game getGame() {
-        return game;
+    public Long getGameID() {
+        return gameID;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGameID(Long gameID) {
+        this.gameID = gameID;
     }
 
     public List<Cell> getCells() {

@@ -129,16 +129,30 @@ public class GameServiceImpl implements GameService {
         Game game = gameRepo.findGameById(gameId);
         User user = userRepo.findByName(name);
         Field field = createField();
-        field.setGame(game);
+        field.setGameID(game.getId());
         field.setUser(user);
         try {
             fieldRepo.save(field);
+            addFieldIntoGame(game, user, field);
             LOGGER.info("Field created for " + name);
             return field;
         } catch (Exception e) {
             LOGGER.info(e.getMessage());
             return null;
         }
+    }
+
+    private void addFieldIntoGame(Game game, User user, Field field) {
+        if(game.getUserHost().equals(user)) {
+            game.setHostField(field);
+        } else if(game.getSecondUser().equals(user)){
+            game.setJoinField(field);
+        } else {
+            //TODO сделать свой эксепшн для отсутствия юзера в игре
+//            throw Exception;
+        }
+        LOGGER.info(String.format("field %s for user %s added into game %s", field.getId(), user.getName(), game.getId()));
+        gameRepo.save(game);
     }
 
     private Field createField() throws IOException {
@@ -198,7 +212,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void startGame(Long gameId) {
-        Game game = gameRepo.getOne(gameId);
+        Game game = getGameById(gameId);
         if (Optional.ofNullable(game.getJoinField()).isPresent() && Optional.ofNullable(game.getHostField()).isPresent()) {
             if (game.getJoinField().isReady() && game.getHostField().isReady()) {
                 game.setStarted(Boolean.TRUE);
