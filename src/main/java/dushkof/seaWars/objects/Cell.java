@@ -17,7 +17,7 @@ public class Cell {
     private Integer y;
     @ManyToOne
     private Field field;
-    private String status;
+    private Long status;
     private boolean checked;
 
     protected Cell(){
@@ -27,6 +27,10 @@ public class Cell {
         this.x = x;
         this.y = y;
         checked = false;
+    }
+
+    public Cell(Long cellId) {
+        this.id = cellId;
     }
 
     public Long getId() {
@@ -61,11 +65,11 @@ public class Cell {
         this.field = field;
     }
 
-    public String getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 
