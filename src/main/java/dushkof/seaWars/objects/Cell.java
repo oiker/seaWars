@@ -29,6 +29,10 @@ public class Cell {
         checked = false;
     }
 
+    public Cell(Long cellId) {
+        this.id = cellId;
+    }
+
     public Long getId() {
         return id;
     }

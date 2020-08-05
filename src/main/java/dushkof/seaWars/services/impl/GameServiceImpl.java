@@ -13,10 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 public class GameServiceImpl implements GameService {
 
@@ -81,7 +78,9 @@ public class GameServiceImpl implements GameService {
                 LOGGER.info("User try to connect to the same game");
                 return "NOK";
             }
-            game.setSecondUser(secondUser);
+            if (secondUser == null) {
+                game.setSecondUser(secondUser);
+            } else return "NOK";
             gameRepo.save(game);
             LOGGER.info("User " + name + " is connecting for " + game.getUserHost().getName());
             return "OK";
@@ -94,8 +93,14 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<Game> foundNewGames() {
         List<Game> games = gameRepo.findGameBySecondUser(null);
+        List<Game> freeGames = new LinkedList<>();
+        for (Game gameList : games) {
+            if (BooleanUtils.isNotTrue(gameList.getFinished())) {
+                freeGames.add(gameList);
+            }
+        }
         LOGGER.info("Send free games");
-        return checkRepeatGames(games);
+        return checkRepeatGames(freeGames);
     }
 
     @Override
