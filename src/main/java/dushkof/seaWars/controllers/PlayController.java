@@ -1,5 +1,6 @@
 package dushkof.seaWars.controllers;
 
+import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.repo.FieldRepo;
 import dushkof.seaWars.repo.GameRepo;
 import dushkof.seaWars.services.PlayService;
@@ -26,5 +27,11 @@ public class PlayController {
     @RequestMapping(value = "shoot", method = RequestMethod.GET)
     public String shipShoot(@RequestParam(value = "cellId") final Long cellId) {
         return playService.checkCellStatus(cellId);
+    }
+
+    @RequestMapping(value = "surrender", method = RequestMethod.GET)
+    public Game surrender(@RequestParam(value = "name") final String name,
+                          @RequestParam(value = "gameId") final Long gameId) {
+        return playService.surrenderUser(name, gameId);
     }
 }

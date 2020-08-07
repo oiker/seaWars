@@ -78,10 +78,10 @@ public class GameServiceImpl implements GameService {
                 LOGGER.info("User try to connect to the same game");
                 return "NOK";
             }
-            if (secondUser == null) {
+            if (game.getSecondUser() == null) {
                 game.setSecondUser(secondUser);
+                gameRepo.save(game);
             } else return "NOK";
-            gameRepo.save(game);
             LOGGER.info("User " + name + " is connecting for " + game.getUserHost().getName());
             return "OK";
         } catch (Exception e) {
@@ -148,16 +148,17 @@ public class GameServiceImpl implements GameService {
     }
 
     private void addFieldIntoGame(Game game, User user, Field field) {
-        if(game.getUserHost().equals(user)) {
-            game.setHostField(field);
-        } else if(game.getSecondUser().equals(user)){
-            game.setJoinField(field);
-        } else {
-            //TODO сделать свой эксепшн для отсутствия юзера в игре
-//            throw Exception;
+        try {
+            if (game.getUserHost().equals(user)) {
+                game.setHostField(field);
+            } else if (game.getSecondUser().equals(user)) {
+                game.setJoinField(field);
+            } else throw new UncorrectedUserException("Is not exist user");
+            LOGGER.info(String.format("field %s for user %s added into game %s", field.getId(), user.getName(), game.getId()));
+            gameRepo.save(game);
+        } catch (UncorrectedUserException message) {
+            LOGGER.info(message.getMessage());
         }
-        LOGGER.info(String.format("field %s for user %s added into game %s", field.getId(), user.getName(), game.getId()));
-        gameRepo.save(game);
     }
 
     private Field createField() throws IOException {
@@ -226,4 +227,10 @@ public class GameServiceImpl implements GameService {
         }
     }
 
+    class UncorrectedUserException extends Exception {
+
+        public UncorrectedUserException(String message) {
+            super(message);
+        }
+    }
 }
