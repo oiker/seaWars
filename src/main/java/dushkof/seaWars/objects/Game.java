@@ -29,6 +29,13 @@ public class Game {
     private Boolean isFinished;
     private Date creatingTime;
     private Date finishGame;
+    private String Winner;
+
+    public String getWinner() {return Winner;}
+
+    public void setWinner(String winner) {Winner = winner;}
+
+
 
     protected Game() {}
 

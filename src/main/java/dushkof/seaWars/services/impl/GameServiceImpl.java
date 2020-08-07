@@ -78,9 +78,9 @@ public class GameServiceImpl implements GameService {
                 LOGGER.info("User try to connect to the same game");
                 return "NOK";
             }
-            if (secondUser == null) {
+            if (secondUser != null) {
                 game.setSecondUser(secondUser);
-            } else return "NOK";
+                            } else return "NOK";
             gameRepo.save(game);
             LOGGER.info("User " + name + " is connecting for " + game.getUserHost().getName());
             return "OK";
