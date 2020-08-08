@@ -89,7 +89,7 @@ public class PlayServiceImpl implements PlayService {
             return "WOUND";
         } catch (Exception e) {
             LOGGER.info(e.getMessage());
-            return "ERROR";
+            return null;
         }
     }
 
@@ -100,8 +100,8 @@ public class PlayServiceImpl implements PlayService {
             User user = userRepo.findByName(name);
             game.setFinished(true);
             if (user.equals(game.getUserHost())) {
-                game.getSecondUser();
-            } game.getUserHost();
+                game.setWinner(game.getSecondUser().getName());
+            } game.setWinner(game.getUserHost().getName());
             return game;
         } catch (Exception e) {
             e.getMessage();
