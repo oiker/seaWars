@@ -30,12 +30,15 @@ public class Game {
     private Date creatingTime;
     private Date finishGame;
     private String Winner;
+    private String whoseTurn;
+
+    public String getWhoseTurn() {return whoseTurn;}
+
+    public void setWhoseTurn(String whoseTurn) {this.whoseTurn = whoseTurn;}
 
     public String getWinner() {return Winner;}
 
     public void setWinner(String winner) {Winner = winner;}
-
-
 
     protected Game() {}
 
@@ -45,6 +48,7 @@ public class Game {
     }
 
     public Game(User userHost) {
+        this.whoseTurn = userHost.getName();
         this.userHost = userHost;
     }
 

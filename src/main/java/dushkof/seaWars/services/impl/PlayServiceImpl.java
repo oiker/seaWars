@@ -35,7 +35,19 @@ public class PlayServiceImpl implements PlayService {
     GameRepo gameRepo;
 
     @Override
-    public String Shoot(Long cellId) {
+    public String whoseTurn(String playerName, Long gameId){
+        Game game = gameRepo.findGameById(gameId);
+        if (game.getFinished() && !game.getWinner().equals(playerName)){
+            return "LOSE";
+        }
+        if (game.getWhoseTurn().equals(playerName)){
+            return "OK";
+        }
+        return "NOK";
+    }
+
+    @Override
+    public String shoot(Long cellId) {
         Cell cell = cellRepo.findCellById(cellId);
 
         if ( cell.isChecked() == true ) {

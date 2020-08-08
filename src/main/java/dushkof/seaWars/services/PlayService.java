@@ -2,5 +2,7 @@ package dushkof.seaWars.services;
 
 public interface PlayService {
 
-    String Shoot(Long cellId);
+    String shoot(Long cellId);
+
+    String whoseTurn(String playerName, Long gameId);
 }
