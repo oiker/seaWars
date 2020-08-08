@@ -1,17 +1,14 @@
 package dushkof.seaWars.services.impl;
 
-import com.mysql.cj.xdevapi.Collection;
 import dushkof.seaWars.controllers.HelloController;
 import dushkof.seaWars.objects.*;
 import dushkof.seaWars.repo.*;
 import dushkof.seaWars.services.PlayService;
-import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcOperations;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -70,9 +67,9 @@ public class PlayServiceImpl implements PlayService {
                 ship.setAlive(false);
                 int num = allShipsByField.size();
                 int count = 0;
-                for (int i = 0; i < killedShips.size(); i++) {
-                    for (int k = 0; k < allShipsByField.size(); k++) {
-                        if (killedShips.get(i).equals(allShipsByField.get(k)) == true) {
+                for (Long killedShip : killedShips) {
+                    for (Long allShips : allShipsByField) {
+                        if (killedShip.equals(allShips)) {
                             count++;
                             if (num == count) {
                                 game.setFinished(true);
