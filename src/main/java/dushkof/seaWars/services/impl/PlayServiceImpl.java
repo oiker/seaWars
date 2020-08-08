@@ -46,45 +46,51 @@ public class PlayServiceImpl implements PlayService {
 
     @Override
     public String checkCellStatus(Long cellId) {
-        Cell cell = cellRepo.findCellById(cellId);
-        if (cell.isChecked()) {
-            return "NOK";
-        } cell.setChecked(true);
-        cellRepo.save(cell);
-        if (cell.getStatus() == null) {
-            return "MISS";
-        }
-        Long shipId = jdbcTemplate.queryForObject(String.format(SHIP_ID_BY_CELLS_ID, cellId), Long.class);
-        jdbcTemplate.execute(String.format(ADD_SHIP_WOUNDED_CELLS, shipId, cellId));
-        List<Long> allCellByShips = jdbcTemplate.queryForList(String.format(ALL_CELLS_BY_SHIP, shipId), Long.class);
-        List<Long> allWoundedCellByShip = jdbcTemplate.queryForList(String.format(ALL_WOUNDED_CELL_BY_SHIP, shipId), Long.class);
-        Ship ship = shipRepo.findShipById(shipId);
-        Long fieldId = jdbcTemplate.queryForObject(String.format(FIELD_ID_BY_CELLS_ID, cellId), Long.class);
-        List<Long> allShipsByField = jdbcTemplate.queryForList(String.format(ALL_SHIPS_BY_FIELD, fieldId), Long.class);
-        Field field = fieldRepo.findFieldById(fieldId);
-        Game game = gameRepo.findGameById(field.getGameID());
-        if (allWoundedCellByShip.equals(allCellByShips)) {
-            killedShips.add(shipId);
-            ship.setAlive(false);
-            int num = allShipsByField.size();
-            int count = 0;
-            for (int i = 0; i < killedShips.size(); i++) {
-                for (int k = 0; k < allShipsByField.size(); k++) {
-                    if (killedShips.get(i).equals(allShipsByField.get(k)) == true) {
-                        count++;
-                        if (num == count) {
-                            game.setFinished(true);
-                            game.setWinner(field.getUser().getName());
-                            game.setFinishGame(new Date());
-                            gameRepo.save(game);
-                            return "FINISH";
+        try {
+            Cell cell = cellRepo.findCellById(cellId);
+            if (cell.isChecked()) {
+                return "NOK";
+            }
+            cell.setChecked(true);
+            cellRepo.save(cell);
+            if (cell.getStatus() == null) {
+                return "MISS";
+            }
+            Long shipId = jdbcTemplate.queryForObject(String.format(SHIP_ID_BY_CELLS_ID, cellId), Long.class);
+            jdbcTemplate.execute(String.format(ADD_SHIP_WOUNDED_CELLS, shipId, cellId));
+            List<Long> allCellByShips = jdbcTemplate.queryForList(String.format(ALL_CELLS_BY_SHIP, shipId), Long.class);
+            List<Long> allWoundedCellByShip = jdbcTemplate.queryForList(String.format(ALL_WOUNDED_CELL_BY_SHIP, shipId), Long.class);
+            Ship ship = shipRepo.findShipById(shipId);
+            Long fieldId = jdbcTemplate.queryForObject(String.format(FIELD_ID_BY_CELLS_ID, cellId), Long.class);
+            List<Long> allShipsByField = jdbcTemplate.queryForList(String.format(ALL_SHIPS_BY_FIELD, fieldId), Long.class);
+            Field field = fieldRepo.findFieldById(fieldId);
+            Game game = gameRepo.findGameById(field.getGameID());
+            if (allWoundedCellByShip.equals(allCellByShips)) {
+                killedShips.add(shipId);
+                ship.setAlive(false);
+                int num = allShipsByField.size();
+                int count = 0;
+                for (int i = 0; i < killedShips.size(); i++) {
+                    for (int k = 0; k < allShipsByField.size(); k++) {
+                        if (killedShips.get(i).equals(allShipsByField.get(k)) == true) {
+                            count++;
+                            if (num == count) {
+                                game.setFinished(true);
+                                game.setWinner(field.getUser().getName());
+                                game.setFinishGame(new Date());
+                                gameRepo.save(game);
+                                return "FINISH";
+                            }
                         }
                     }
                 }
+                return "KILL";
             }
-            return "YBIL";
+            return "WOUND";
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage());
+            return "ERROR";
         }
-            return "RANIL";
     }
 
     @Override
