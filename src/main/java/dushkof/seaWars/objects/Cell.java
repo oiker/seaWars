@@ -15,10 +15,15 @@ public class Cell {
     private Long id;
     private Integer x;
     private Integer y;
-    @ManyToOne
-    private Field field;
+//    @ManyToOne
+//    private Field field;
     private Long status;
     private boolean checked;
+    private boolean availableForShip;
+
+    public boolean isAvailableForShip() {return availableForShip;}
+
+    public void setAvailableForShip(boolean availableForShip) {this.availableForShip = availableForShip;}
 
     protected Cell(){
     }
@@ -57,13 +62,13 @@ public class Cell {
         this.y = y;
     }
 
-    public Field getField() {
-        return field;
-    }
-
-    public void setField(Field field) {
-        this.field = field;
-    }
+//    public Field getField() {
+//        return field;
+//    }
+//
+//    public void setField(Field field) {
+//        this.field = field;
+//    }
 
     public Long getStatus() {
         return status;

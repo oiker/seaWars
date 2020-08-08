@@ -26,7 +26,13 @@ public class PlayController {
 
     @RequestMapping(value = "shoot", method = RequestMethod.GET)
     public String shipShoot(@RequestParam(value = "cellId") final Long cellId) {
-        return playService.checkCellStatus(cellId);
+        return playService.shoot(cellId);
+    }
+
+    @RequestMapping(value = "turn", method = RequestMethod.GET)
+    public String whoseTurn(@RequestParam(value = "playerName") final String playerName,
+                            @RequestParam(value = "gameId") final Long gameId) {
+        return playService.whoseTurn(playerName, gameId);
     }
 
     @RequestMapping(value = "surrender", method = RequestMethod.GET)
@@ -35,3 +41,4 @@ public class PlayController {
         return playService.surrenderUser(name, gameId);
     }
 }
+
