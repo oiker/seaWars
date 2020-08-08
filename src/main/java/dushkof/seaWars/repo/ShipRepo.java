@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ShipRepo extends JpaRepository<Ship, Long> {
-    List<Cell> getShipByAllCells (Long cellId);
-    //Long getShipId (List<Cell> cells);
+    Ship getShipById(Long shipId);
 }

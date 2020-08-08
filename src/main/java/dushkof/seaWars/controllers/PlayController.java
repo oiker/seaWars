@@ -25,6 +25,6 @@ public class PlayController {
 
     @RequestMapping(value = "shoot", method = RequestMethod.GET)
     public String shipShoot(@RequestParam(value = "cellId") final Long cellId) {
-        return playService.checkCellStatus(cellId);
+        return playService.Shoot(cellId);
     }
 }

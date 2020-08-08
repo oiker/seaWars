@@ -2,6 +2,7 @@ package dushkof.seaWars.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
+import dushkof.seaWars.objects.Cell;
 import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.repo.FieldRepo;
@@ -80,6 +81,7 @@ public class GameController {
         Field field = new Gson().fromJson(json, Field.class);
         field.setReady(Boolean.TRUE);
         fieldRepo.save(field);
+
         if(field.getGameID() != null) {
             gameService.startGame(field.getGameID());
         }
