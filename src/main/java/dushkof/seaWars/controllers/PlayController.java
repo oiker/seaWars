@@ -30,7 +30,7 @@ public class PlayController {
     }
 
     @RequestMapping(value = "surrender", method = RequestMethod.GET)
-    public Game surrender(@RequestParam(value = "name") final String name,
+    public String surrender(@RequestParam(value = "name") final String name,
                           @RequestParam(value = "gameId") final Long gameId) {
         return playService.surrenderUser(name, gameId);
     }

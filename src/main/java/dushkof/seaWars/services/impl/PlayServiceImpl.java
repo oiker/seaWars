@@ -91,7 +91,7 @@ public class PlayServiceImpl implements PlayService {
     }
 
     @Override
-    public Game surrenderUser(String name, Long gameId) {
+    public String surrenderUser(String name, Long gameId) {
         try {
             Game game = gameRepo.findGameById(gameId);
             User user = userRepo.findByName(name);
@@ -99,10 +99,11 @@ public class PlayServiceImpl implements PlayService {
             if (user.equals(game.getUserHost())) {
                 game.setWinner(game.getSecondUser().getName());
             } game.setWinner(game.getUserHost().getName());
-            return game;
+            gameRepo.save(game);
+            return "OK";
         } catch (Exception e) {
-            e.getMessage();
-            return null;
+            LOGGER.info(e.getMessage());
+            return "NOK";
         }
     }
 }
