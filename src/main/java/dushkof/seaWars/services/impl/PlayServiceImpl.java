@@ -52,7 +52,7 @@ public class PlayServiceImpl implements PlayService {
     public String shoot(Long cellId) {
         Cell cell = cellRepo.findCellById(cellId);
 
-        if ( cell.isChecked() == true ) {
+        if (cell == null || cell.isChecked() == true) {
             return "NOK";
         }
         cell.setChecked(true);
