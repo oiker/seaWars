@@ -9,16 +9,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SeaWarsApplicationTests {
 
-//	@Test
-//	void contextLoads() {
-//	}
-//
-//	private User user;
-//
-//	@Rule
-//	public ExpectedException thrown = ExpectedException.none();
-//
-//	@Test
-//	public void createNewUserTest() throws Exception{
-//	}
 }

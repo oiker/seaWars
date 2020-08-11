@@ -15,6 +15,8 @@ import java.util.List;
 
 public class PlayServiceImpl implements PlayService {
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
+    private static final String GET_SHIP_ID_BY_CELL_ID = "SELECT ship_id FROM ship_all_cells WHERE all_cells_id = %s;";
+    private static final String GET_FIELD_BY_CELL_ID = "SELECT field_id FROM field_cells WHERE cells_id = %s;";
 
     @Resource
     ShipRepo shipRepo;
@@ -50,7 +52,7 @@ public class PlayServiceImpl implements PlayService {
     public String shoot(Long cellId) {
         Cell cell = cellRepo.findCellById(cellId);
 
-        if ( cell.isChecked() == true ) {
+        if (cell == null || cell.isChecked() == true) {
             return "NOK";
         }
         cell.setChecked(true);
@@ -59,7 +61,7 @@ public class PlayServiceImpl implements PlayService {
             cellRepo.save(cell);
             return "MISS";
         }
-        Long shipId = jdbcTemplate.queryForObject("SELECT ship_id FROM ship_all_cells WHERE all_cells_id =" + cell.getId() + ";", Long.class);
+        Long shipId = jdbcTemplate.queryForObject(String.format(GET_SHIP_ID_BY_CELL_ID, cell.getId()), Long.class);
         Ship ship = shipRepo.getShipById(shipId);
         List<Cell> allCells = ship.getAllCells();
         List<Cell> woundedCells = ship.getWoundedCells();
@@ -84,13 +86,12 @@ public class PlayServiceImpl implements PlayService {
 
     public boolean checkIfItWasTheLastShip(Long cellId) {
 
-        Long fieldId = jdbcTemplate.queryForObject("SELECT field_id FROM field_cells WHERE cells_id =" + cellId + ";", Long.class);
+        Long fieldId = jdbcTemplate.queryForObject(String.format(GET_FIELD_BY_CELL_ID,cellId), Long.class);
         Field field = fieldRepo.getOne(fieldId);
-        for (Ship ship : field.getShips()) {
-            if ( ship.isAlive() ) {
-                return false;
-            }
-        }
+        return (field.getShips().stream().anyMatch(ship -> ship.isAlive()) ? false : setWinner(field));
+    }
+
+    private boolean setWinner(Field field) {
         Game game = gameRepo.findGameById(field.getGameID());
         User user = field.getUser();
         game.setFinished(true);
@@ -98,5 +99,22 @@ public class PlayServiceImpl implements PlayService {
         game.setFinishGame(new Date());
         gameRepo.save(game);
         return true;
+    }
+
+    @Override
+    public String surrenderUser(String name, Long gameId) {
+        try {
+            Game game = gameRepo.findGameById(gameId);
+            User user = userRepo.findByName(name);
+            game.setFinished(true);
+            if (user.equals(game.getUserHost())) {
+                game.setWinner(game.getSecondUser().getName());
+            } game.setWinner(game.getUserHost().getName());
+            gameRepo.save(game);
+            return "OK";
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage());
+            return "NOK";
+        }
     }
 }
