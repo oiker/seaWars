@@ -14,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.annotation.Resource;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,13 +65,63 @@ class GameControllerTest {
     }
 
     @Test
-    void connectSecondUserTest() {
+    void connectSecondUserTest() throws IOException {
+        try {
+            String createUserTest = userController.create("test1", "test1");
+            Assert.assertEquals(Constants.OK, createUserTest);
 
+            String createGameTest = gameService.createGame("test1");
+            Assert.assertEquals(Constants.OK, createGameTest);
 
+            String createSecondUserTest = userController.create("test2", "test2");
+            Assert.assertEquals(Constants.OK, createSecondUserTest);
+
+            Game game = gameRepo.findByUserHost("test1");
+            Long id = game.getId();
+
+            String connectSecondUserTest = gameService.connectSecondUser(id, "test2");
+            Assert.assertEquals(Constants.OK, connectSecondUserTest);
+
+            String connectHostAsSecondUserTest = gameService.connectSecondUser(id, "test1");
+            Assert.assertEquals(Constants.NOK, connectHostAsSecondUserTest);
+
+            String connectNullNameSecondUserTest = gameService.connectSecondUser(id, null);
+            Assert.assertEquals(Constants.NOK, connectNullNameSecondUserTest);
+            }
+        catch (Exception e){
+            System.out.println(e);
+            }
+        finally{
+//            gameRepo.delete(gameRepo.findByUserHost("test1"));
+//            userRepo.delete(userRepo.findByName("test1"));
+//            userRepo.delete(userRepo.findByName("test2"));
+        }
     }
 
     @Test
-    void foundGames() {
+    void foundGames() throws IOException {
+        String createUserTest = userController.create("test1", "test1");
+        Assert.assertEquals(Constants.OK, createUserTest);
+
+        String createSecondUserTest = userController.create("test2", "test2");
+        Assert.assertEquals(Constants.OK, createSecondUserTest);
+
+        String createGameTest = gameService.createGame("test1");
+        Assert.assertEquals(Constants.OK, createGameTest);
+
+        String createGameTest1 = gameService.createGame("test2");
+        Assert.assertEquals(Constants.OK, createGameTest);
+
+        List<Game> foundFreeGamesTest = gameService.foundNewGames();
+
+        Game testGame = gameRepo.findByUserHost("test1");
+        Game testGame2 = gameRepo.findByUserHost("test2");
+        List<Game> checkFoundFreeGamesTest = new ArrayList<>();
+        checkFoundFreeGamesTest.add(testGame);
+        checkFoundFreeGamesTest.add(testGame2);
+
+        Assert.assertEquals(foundFreeGamesTest, checkFoundFreeGamesTest);
+
     }
 
     @Test
