@@ -100,27 +100,35 @@ class GameControllerTest {
 
     @Test
     void foundGames() throws IOException {
-        String createUserTest = userController.create("test1", "test1");
-        Assert.assertEquals(Constants.OK, createUserTest);
+        try {
+            String createUserTest = userController.create("test1", "test1");
+            Assert.assertEquals(Constants.OK, createUserTest);
 
-        String createSecondUserTest = userController.create("test2", "test2");
-        Assert.assertEquals(Constants.OK, createSecondUserTest);
+            String createSecondUserTest = userController.create("test2", "test2");
+            Assert.assertEquals(Constants.OK, createSecondUserTest);
 
-        String createGameTest = gameService.createGame("test1");
-        Assert.assertEquals(Constants.OK, createGameTest);
+            String createGameTest = gameService.createGame("test1");
+            Assert.assertEquals(Constants.OK, createGameTest);
 
-        String createGameTest1 = gameService.createGame("test2");
-        Assert.assertEquals(Constants.OK, createGameTest);
+            String createGameTest1 = gameService.createGame("test2");
+            Assert.assertEquals(Constants.OK, createGameTest);
 
-        List<Game> foundFreeGamesTest = gameService.foundNewGames();
+            List<Game> foundFreeGamesTest = gameService.foundNewGames();
 
-        Game testGame = gameRepo.findByUserHost("test1");
-        Game testGame2 = gameRepo.findByUserHost("test2");
-        List<Game> checkFoundFreeGamesTest = new ArrayList<>();
-        checkFoundFreeGamesTest.add(testGame);
-        checkFoundFreeGamesTest.add(testGame2);
+            Game testGame = gameRepo.findByUserHost("test1");
+            Game testGame2 = gameRepo.findByUserHost("test2");
+            List<Game> checkFoundFreeGamesTest = new ArrayList<>();
+            checkFoundFreeGamesTest.add(testGame);
+            checkFoundFreeGamesTest.add(testGame2);
 
-        Assert.assertEquals(foundFreeGamesTest, checkFoundFreeGamesTest);
+            Assert.assertEquals(foundFreeGamesTest, checkFoundFreeGamesTest);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        finally{
+
+        }
 
     }
 
