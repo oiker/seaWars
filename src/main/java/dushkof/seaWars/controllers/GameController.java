@@ -1,8 +1,5 @@
 package dushkof.seaWars.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.gson.Gson;
-import dushkof.seaWars.objects.Cell;
 import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.repo.FieldRepo;
@@ -76,9 +73,8 @@ public class GameController {
 
     @RequestMapping(value = "/saveField", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getField(@RequestBody String json) throws JsonProcessingException {
+    public String getField(@RequestBody Field field) {
         try{
-        Field field = new Gson().fromJson(json, Field.class);
         field.setReady(Boolean.TRUE);
         fieldRepo.save(field);
 
