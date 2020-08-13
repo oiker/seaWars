@@ -19,7 +19,7 @@ public class Cell {
 //    private Field field;
     private Long status;
     private boolean checked;
-    private boolean availableForShip;
+    private boolean availableForShip = true;
 
     public boolean isAvailableForShip() {return availableForShip;}
 

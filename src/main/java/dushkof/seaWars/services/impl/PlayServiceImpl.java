@@ -4,6 +4,7 @@ import dushkof.seaWars.controllers.HelloController;
 import dushkof.seaWars.objects.*;
 import dushkof.seaWars.repo.*;
 import dushkof.seaWars.services.PlayService;
+import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,10 +40,10 @@ public class PlayServiceImpl implements PlayService {
     @Override
     public String whoseTurn(String playerName, Long gameId){
         Game game = gameRepo.findGameById(gameId);
-        if (game.getFinished() && !game.getWinner().equals(playerName)){
+        if ( BooleanUtils.isTrue(game.getFinished()) && !playerName.equals(game.getWinner())){
             return "LOSE";
         }
-        if (game.getWhoseTurn().equals(playerName)){
+        if (playerName.equals(game.getWhoseTurn())){
             return "OK";
         }
         return "NOK";
@@ -52,7 +53,7 @@ public class PlayServiceImpl implements PlayService {
     public String shoot(Long cellId) {
         Cell cell = cellRepo.findCellById(cellId);
 
-        if ( cell.isChecked() == true ) {
+        if (cell == null || cell.isChecked()) {
             return "NOK";
         }
         cell.setChecked(true);
