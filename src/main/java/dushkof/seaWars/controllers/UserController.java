@@ -40,6 +40,10 @@ public class UserController {
         if (password.length() < 4) {
             return "NOK < 4";
         }
+        boolean testUsers = name.contains("test");
+        if (testUsers) {
+            return "NOK";
+        }
         User user = new User(name, password);
         try {
             userRepo.save(user);
