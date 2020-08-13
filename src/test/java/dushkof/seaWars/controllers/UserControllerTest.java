@@ -18,62 +18,62 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserControllerTest {
-
-    @Resource
-    UserServiceImpl userService;
-
-    @Resource
-    UserController userController;
-
-    @Resource
-    UserRepo userRepo;
-
-    @Test
-    void createUserTest() {
-        try {
-            String createUserTest = userController.create("test1", "test1");
-
-            Assert.assertEquals(Constants.OK, createUserTest);
-
-            String createUserTest1 = userController.create("test1", "test1");
-
-            Assert.assertEquals(Constants.NOK, createUserTest1);
-
-            String createUserTest2 = userController.create("123456789", "test1");
-
-            Assert.assertEquals(Constants.NOK, createUserTest2);
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }
-        finally {
-            userRepo.delete(userRepo.findByName("123456789"));
-            userRepo.delete(userRepo.findByName("test1"));
-        }
-
-    }
-
-    @Test
-    void checkUserPasswordTest() {
-        try{
-        String createUserTest = userController.create("test1", "test1");
-
-        Assert.assertEquals(Constants.OK, createUserTest);
-
-        String checkUserPasswordTest = userService.checkUserPassword("test1", "test1");
-
-        Assert.assertEquals(Constants.OK, checkUserPasswordTest);
-
-        String checkUserPasswordTest1 = userService.checkUserPassword("test1", "12345");
-
-        Assert.assertEquals(Constants.NOK, checkUserPasswordTest1);
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }
-        finally {
-            userRepo.delete(userRepo.findByName("test1"));
-        }
-
-    }
+//
+//    @Resource
+//    UserServiceImpl userService;
+//
+//    @Resource
+//    UserController userController;
+//
+//    @Resource
+//    UserRepo userRepo;
+//
+//    @Test
+//    void createUserTest() {
+//        try {
+//            String createUserTest = userController.create("test1", "test1");
+//
+//            Assert.assertEquals(Constants.OK, createUserTest);
+//
+//            String createUserTest1 = userController.create("test1", "test1");
+//
+//            Assert.assertEquals(Constants.NOK, createUserTest1);
+//
+//            String createUserTest2 = userController.create("123456789", "test1");
+//
+//            Assert.assertEquals(Constants.NOK, createUserTest2);
+//        }
+//        catch (Exception e){
+//            System.out.println(e);
+//        }
+//        finally {
+//            userRepo.delete(userRepo.findByName("123456789"));
+//            userRepo.delete(userRepo.findByName("test1"));
+//        }
+//
+//    }
+//
+//    @Test
+//    void checkUserPasswordTest() {
+//        try{
+//        String createUserTest = userController.create("test1", "test1");
+//
+//        Assert.assertEquals(Constants.OK, createUserTest);
+//
+//        String checkUserPasswordTest = userService.checkUserPassword("test1", "test1");
+//
+//        Assert.assertEquals(Constants.OK, checkUserPasswordTest);
+//
+//        String checkUserPasswordTest1 = userService.checkUserPassword("test1", "12345");
+//
+//        Assert.assertEquals(Constants.NOK, checkUserPasswordTest1);
+//        }
+//        catch (Exception e){
+//            System.out.println(e);
+//        }
+//        finally {
+//            userRepo.delete(userRepo.findByName("test1"));
+//        }
+//
+//    }
 }
