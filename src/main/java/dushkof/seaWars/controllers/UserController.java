@@ -33,7 +33,7 @@ public class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(@RequestParam(value = "name") final String name,
                        @RequestParam(value = "password") final String password) {
-        boolean onlyNumbers = password.matches("^[0-9]+$");
+        boolean onlyNumbers = name.matches("^[0-9]+$");
         if (onlyNumbers) {
             return "NOK only num";
         }
