@@ -43,8 +43,8 @@ public class GameServiceImpl implements GameService {
                 List<Game> notFinishedGames = new ArrayList<>();
                 for (int i = 0; i < games.size(); i++) {
                     Game game = games.get(i);
-                    if ( !game.getFinished() ) {
-                        if ( !game.getStarted() ) {
+                    if (BooleanUtils.isNotTrue(game.getFinished() )) {
+                        if (BooleanUtils.isNotTrue(game.getStarted())) {
                             notFinishedGames.add(game);
                         } else {
                             LOGGER.info("Game already started for " + name);
