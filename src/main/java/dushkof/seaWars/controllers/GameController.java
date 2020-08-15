@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("game")
 public class GameController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
     @Resource
     private GameService gameService;
