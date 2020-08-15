@@ -1,9 +1,10 @@
 package dushkof.seaWars.controllers;
 
-import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.repo.FieldRepo;
 import dushkof.seaWars.repo.GameRepo;
 import dushkof.seaWars.services.PlayService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("play")
 public class PlayController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayController.class);
 
     @Resource
     private FieldRepo fieldRepo;

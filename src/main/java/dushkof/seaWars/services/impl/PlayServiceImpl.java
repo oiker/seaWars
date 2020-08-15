@@ -1,6 +1,5 @@
 package dushkof.seaWars.services.impl;
 
-import dushkof.seaWars.controllers.HelloController;
 import dushkof.seaWars.objects.*;
 import dushkof.seaWars.repo.*;
 import dushkof.seaWars.services.PlayService;
@@ -15,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 public class PlayServiceImpl implements PlayService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayServiceImpl.class);
     private static final String GET_SHIP_ID_BY_CELL_ID = "SELECT ship_id FROM ship_all_cells WHERE all_cells_id = %s;";
     private static final String GET_FIELD_BY_CELL_ID = "SELECT field_id FROM field_cells WHERE cells_id = %s;";
 
