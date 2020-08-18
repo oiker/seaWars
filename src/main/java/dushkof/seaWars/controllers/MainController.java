@@ -2,8 +2,11 @@ package dushkof.seaWars.controllers;
 
 
 import dushkof.seaWars.form.UserForm;
+import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.objects.User;
 import dushkof.seaWars.repo.UserRepo;
+import dushkof.seaWars.services.GameService;
+import dushkof.seaWars.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +31,12 @@ public class MainController {
 
     @Resource
     UserRepo userRepo;
+
+    @Resource
+    GameService gameService;
+
+    @Resource
+    UserService userService;
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) {
@@ -74,6 +83,38 @@ public class MainController {
             return "addPerson";
         }
 
+    }
+
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String tryLogin(Model model) {
+
+        UserForm userForm = new UserForm();
+        model.addAttribute("userForm", userForm);
+        return "login";
+    }
+
+
+    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
+    public String login(Model model,
+                        @ModelAttribute("userForm") UserForm userForm){
+        String name = userForm.getName();
+        String password = userForm.getPassword();
+        if (userService.checkUserPassword(name, password) == "OK"){
+            LOGGER.info("User " + name + "has logged in");
+            return "redirect:/lobby";
+        }
+        else{
+            LOGGER.info("User " + name + " has not logged in");
+            model.addAttribute("errorMessage", errorMessage);
+            return "redirect:/index";
+        }
+    }
+
+    @RequestMapping(value = {"/lobby"}, method = RequestMethod.GET)
+    public String freeGameList(Model model){
+        List<Game> games = gameService.foundNewGames();
+        model.addAttribute("games", games);
+        return "lobby";
     }
 
 

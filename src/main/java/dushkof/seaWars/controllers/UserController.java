@@ -33,27 +33,7 @@ public class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(@RequestParam(value = "name") final String name,
                        @RequestParam(value = "password") final String password) {
-        boolean onlyNumbers = name.matches("^[0-9]+$");
-        if (onlyNumbers) {
-            return "NOK only num";
-        }
-        if (password.length() < 4) {
-            return "NOK < 4";
-        }
-        boolean testUsers = name.contains("test");
-        if (testUsers) {
-            return "NOK";
-        }
-        User user = new User(name, password);
-        try {
-            userRepo.save(user);
-            LOGGER.info("User " + name + " is created");
-            return "OK";
-        } catch (Exception e) {
-            LOGGER.info("User " + name + " not created");
-            LOGGER.info(e.getMessage());
-            return "NOK";
-        }
+       return userService.userCreate(name, password);
     }
 
     @RequestMapping(value = "/check", method = RequestMethod.GET)
