@@ -1,6 +1,7 @@
 package dushkof.seaWars.services.impl;
 
 import dushkof.seaWars.controllers.HelloController;
+import dushkof.seaWars.objects.User;
 import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.GameService;
 import dushkof.seaWars.services.UserService;
@@ -34,6 +35,31 @@ public class UserServiceImpl implements UserService {
                 LOGGER.info("Incorrect password for " + name);
             return "NOK";
         } catch (Exception e) {
+            LOGGER.info(e.getMessage());
+            return "NOK";
+        }
+    }
+
+    @Override
+    public String userCreate(String name, String password){
+        boolean onlyNumbers = name.matches("^[0-9]+$");
+        if (onlyNumbers) {
+            return "NOK only num";
+        }
+        if (password.length() < 4) {
+            return "NOK < 4";
+        }
+        boolean testUsers = name.contains("test");
+        if (testUsers) {
+            return "NOK";
+        }
+        User user = new User(name, password);
+        try {
+            userRepo.save(user);
+            LOGGER.info("User " + name + " is created");
+            return "OK";
+        } catch (Exception e) {
+            LOGGER.info("User " + name + " not created");
             LOGGER.info(e.getMessage());
             return "NOK";
         }
