@@ -11,5 +11,7 @@ public interface GameRepo extends JpaRepository<Game, Long> {
 
     Game findGameById(Long id);
 
+    Game findGameByUserHost(User user);
+
     List<Game> findGameBySecondUser(Long id);
 }

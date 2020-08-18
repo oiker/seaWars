@@ -1,12 +1,16 @@
 package dushkof.seaWars.controllers;
 
 
+import dushkof.seaWars.form.GameForm;
 import dushkof.seaWars.form.UserForm;
+import dushkof.seaWars.objects.Field;
 import dushkof.seaWars.objects.Game;
 import dushkof.seaWars.objects.User;
+import dushkof.seaWars.repo.GameRepo;
 import dushkof.seaWars.repo.UserRepo;
 import dushkof.seaWars.services.GameService;
 import dushkof.seaWars.services.UserService;
+import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,15 +19,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 public class MainController {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 
-	@Value("${welcome.message}")
+
+    @Value("${welcome.message}")
     private String message;
 
     @Value("${error.message}")
@@ -31,6 +38,9 @@ public class MainController {
 
     @Resource
     UserRepo userRepo;
+
+    @Resource
+    GameRepo gameRepo;
 
     @Resource
     GameService gameService;
@@ -96,14 +106,13 @@ public class MainController {
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
     public String login(Model model,
-                        @ModelAttribute("userForm") UserForm userForm){
+                        @ModelAttribute("userForm") UserForm userForm) {
         String name = userForm.getName();
         String password = userForm.getPassword();
-        if (userService.checkUserPassword(name, password) == "OK"){
+        if ( userService.checkUserPassword(name, password) == "OK" ) {
             LOGGER.info("User " + name + "has logged in");
-            return "redirect:/lobby";
-        }
-        else{
+            return "redirect:/lobby/?name=" + name;
+        } else {
             LOGGER.info("User " + name + " has not logged in");
             model.addAttribute("errorMessage", errorMessage);
             return "redirect:/index";
@@ -111,11 +120,46 @@ public class MainController {
     }
 
     @RequestMapping(value = {"/lobby"}, method = RequestMethod.GET)
-    public String freeGameList(Model model){
+    public String freeGameList(Model model, @RequestParam(value = "name") final String name) {
         List<Game> games = gameService.foundNewGames();
         model.addAttribute("games", games);
+        model.addAttribute("name", name);
+        model.addAttribute("lobbyLink", "/room/?name=" + name);
         return "lobby";
     }
 
+    @RequestMapping(value = {"/createRoom"}, method = RequestMethod.GET)
+    public String roomWithPlayers(Model model, @RequestParam(value = "name") final String name) throws IOException {
+        gameService.createGame(name);
+        return "redirect:/room/?name=" + name + "&game=" + foundMyGame(name).getId();
+    }
+
+    @RequestMapping(value = {"/joinRoom"}, method = RequestMethod.GET)
+    public String joinRoom(Model model, @RequestParam(value = "name") final String name, @RequestParam(value = "game") final Long id ) {
+        gameService.connectSecondUser(id, name);
+        return "redirect:/room/?name=" + name + "&game=" + id;
+    }
+
+    @RequestMapping(value = {"/room"}, method = RequestMethod.GET)
+    public String updateRoom(Model model, @RequestParam(value = "name") final String name, @RequestParam(value = "game") final Long id) {
+        User user = userRepo.findByName(name);
+        Game game = gameRepo.findGameById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("game", game);
+        return "room";
+    }
+
+
+    private Game foundMyGame(String name) {
+        User user = userRepo.findByName(name);
+        List<Game> games = gameRepo.findByUserHost(user);
+
+        for (Game game : games) {
+            if ( BooleanUtils.isNotTrue(game.getFinished()) ) {
+                return game;
+            }
+        }
+        return null;
+    }
 
 }
