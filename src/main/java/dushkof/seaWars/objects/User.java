@@ -18,6 +18,7 @@ public class User {
     @Column(unique = true)
     private String name;
     private String password;
+    private String nickname;
 
     protected User() {}
 
@@ -52,5 +53,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickName(String nickname) {
+        this.nickname = nickname;
     }
 }
