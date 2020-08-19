@@ -14,3 +14,9 @@ table th, table td {
     padding: 5px;
 }
 
+mailNewMessage {
+    height: 600px;
+    background: #efefef;
+    position: relative;
+    overflow: hidden;
+}
