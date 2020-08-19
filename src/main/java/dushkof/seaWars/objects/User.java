@@ -22,9 +22,10 @@ public class User {
 
     protected User() {}
 
-    public User(String name, String password) {
+    public User(String name, String password, String nickname) {
         this.name = name;
         this.password = password;
+        this.nickname = nickname;
     }
 
     public User(String name) {
